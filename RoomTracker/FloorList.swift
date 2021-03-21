@@ -9,33 +9,25 @@ import SwiftUI
 
 struct FloorList: View {
     
+    // https://www.hackingwithswift.com/quick-start/swiftui/how-to-position-views-in-a-grid-using-lazyvgrid-and-lazyhgrid
+    // Minimum is the mimimum size of each grid item
+    let columSize = [ GridItem(.adaptive(minimum: 150)) ]
+
+    
     var body: some View {
         
         ScrollView {
-            VStack {
-                HStack {
-                    FloorCard(status: .complete)
-                        .padding(.horizontal)
-                    FloorCard(status: .inactive)
-                        .padding(.horizontal)
-                        
-                }
-                
-                HStack {
-                    FloorCard(status: .overdue)
-                        .padding(.horizontal)
-                    FloorCard(status: .complete)
-                        .padding(.horizontal)
-                }
-                
-                HStack {
-                    FloorCard(status: .complete)
-                        .padding(.horizontal)
-                }
-                
-            }
             
-            
+            LazyVGrid(columns: columSize, alignment: .center, spacing: 20) {
+                
+                FloorCard(status: .inactive)
+                FloorCard(status: .inactive)
+                FloorCard(status: .inactive)
+                FloorCard(status: .inactive)
+                FloorCard(status: .complete)
+                FloorCard(status: .overdue)
+                
+            }.padding()
         }
         
         
