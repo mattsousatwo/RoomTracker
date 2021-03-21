@@ -14,17 +14,17 @@ struct FloorList: View {
         ScrollView {
             VStack {
                 HStack {
-                    FloorCard()
+                    FloorCard(status: .complete)
                         .padding(.horizontal)
-                    FloorCard()
+                    FloorCard(status: .inactive)
                         .padding(.horizontal)
                         
                 }
                 
                 HStack {
-                    FloorCard()
+                    FloorCard(status: .overdue)
                         .padding(.horizontal)
-                    FloorCard()
+                    FloorCard(status: .complete)
                         .padding(.horizontal)
                 }
                 
