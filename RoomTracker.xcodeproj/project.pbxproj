@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6067FE602606C95E00B8CA8B /* FloorCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6067FE5F2606C95E00B8CA8B /* FloorCard.swift */; };
+		6067FE652606CA6900B8CA8B /* FloorList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6067FE642606CA6900B8CA8B /* FloorList.swift */; };
 		60BB685E2603D5BB00E4D1CC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60BB685D2603D5BB00E4D1CC /* AppDelegate.swift */; };
 		60BB68602603D5BB00E4D1CC /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60BB685F2603D5BB00E4D1CC /* SceneDelegate.swift */; };
 		60BB68622603D5BB00E4D1CC /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60BB68612603D5BB00E4D1CC /* ContentView.swift */; };
@@ -36,6 +38,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		6067FE5F2606C95E00B8CA8B /* FloorCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloorCard.swift; sourceTree = "<group>"; };
+		6067FE642606CA6900B8CA8B /* FloorList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloorList.swift; sourceTree = "<group>"; };
 		60BB685A2603D5BB00E4D1CC /* RoomTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RoomTracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		60BB685D2603D5BB00E4D1CC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		60BB685F2603D5BB00E4D1CC /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -78,6 +82,36 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6060774D2603D97D00ABB821 /* SupportFiles */ = {
+			isa = PBXGroup;
+			children = (
+				60BB685F2603D5BB00E4D1CC /* SceneDelegate.swift */,
+				60BB685D2603D5BB00E4D1CC /* AppDelegate.swift */,
+				60BB68662603D5BC00E4D1CC /* Assets.xcassets */,
+				60BB686B2603D5BC00E4D1CC /* LaunchScreen.storyboard */,
+				60BB686E2603D5BC00E4D1CC /* Info.plist */,
+			);
+			name = SupportFiles;
+			sourceTree = "<group>";
+		};
+		6060774E2603DA2600ABB821 /* Core Data */ = {
+			isa = PBXGroup;
+			children = (
+				60BB68632603D5BB00E4D1CC /* RoomTracker.xcdatamodeld */,
+			);
+			name = "Core Data";
+			sourceTree = "<group>";
+		};
+		6060774F2603DA3C00ABB821 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				60BB68612603D5BB00E4D1CC /* ContentView.swift */,
+				6067FE5F2606C95E00B8CA8B /* FloorCard.swift */,
+				6067FE642606CA6900B8CA8B /* FloorList.swift */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
 		60BB68512603D5BB00E4D1CC = {
 			isa = PBXGroup;
 			children = (
@@ -101,13 +135,9 @@
 		60BB685C2603D5BB00E4D1CC /* RoomTracker */ = {
 			isa = PBXGroup;
 			children = (
-				60BB685D2603D5BB00E4D1CC /* AppDelegate.swift */,
-				60BB685F2603D5BB00E4D1CC /* SceneDelegate.swift */,
-				60BB68612603D5BB00E4D1CC /* ContentView.swift */,
-				60BB68662603D5BC00E4D1CC /* Assets.xcassets */,
-				60BB686B2603D5BC00E4D1CC /* LaunchScreen.storyboard */,
-				60BB686E2603D5BC00E4D1CC /* Info.plist */,
-				60BB68632603D5BB00E4D1CC /* RoomTracker.xcdatamodeld */,
+				6060774F2603DA3C00ABB821 /* Views */,
+				6060774E2603DA2600ABB821 /* Core Data */,
+				6060774D2603D97D00ABB821 /* SupportFiles */,
 				60BB68682603D5BC00E4D1CC /* Preview Content */,
 			);
 			path = RoomTracker;
@@ -270,8 +300,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				60BB685E2603D5BB00E4D1CC /* AppDelegate.swift in Sources */,
+				6067FE602606C95E00B8CA8B /* FloorCard.swift in Sources */,
 				60BB68652603D5BB00E4D1CC /* RoomTracker.xcdatamodeld in Sources */,
 				60BB68602603D5BB00E4D1CC /* SceneDelegate.swift in Sources */,
+				6067FE652606CA6900B8CA8B /* FloorList.swift in Sources */,
 				60BB68622603D5BB00E4D1CC /* ContentView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
