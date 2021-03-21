@@ -28,6 +28,11 @@ struct FloorList: View {
                         .padding(.horizontal)
                 }
                 
+                HStack {
+                    FloorCard(status: .complete)
+                        .padding(.horizontal)
+                }
+                
             }
             
             

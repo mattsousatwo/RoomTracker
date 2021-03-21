@@ -25,7 +25,7 @@ public init(red: Int, green: Int, blue: Int, opacity: Double = 1.0) {
     
     
     
-    
+    // Colors
     public static let inactiveGrey = Color(red: 227, green: 223, blue: 222)
     public static let completeBlue = Color(red: 29, green: 132, blue: 181)
     public static let overdueRed = Color(red: 219, green: 84, blue: 97)

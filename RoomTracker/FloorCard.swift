@@ -7,12 +7,6 @@
 
 import SwiftUI
 
-enum CardColor {
-    case inactive
-    case complete
-    case overdue
-}
-
 struct FloorCard: View {
     
     @State var status: CardColor
