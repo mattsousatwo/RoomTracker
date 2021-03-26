@@ -37,6 +37,10 @@ struct FloorList: View {
 
 struct FloorList_Previews: PreviewProvider {
     static var previews: some View {
-        FloorList()
+        Group {
+            FloorList()
+            
+            FloorList().preferredColorScheme(.dark)
+        }
     }
 }
