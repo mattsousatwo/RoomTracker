@@ -11,6 +11,8 @@ struct NewRoomView: View {
     
     @State var roomName: String
     
+    @State var tasks: [String] = ["Sweep floor", "Mop floor", "Take out tash", "Clean Windows", "Vaccum Rug", "Disinfect doorknobs"]
+    
     var body: some View {
         
         Form {
@@ -24,7 +26,7 @@ struct NewRoomView: View {
                             Text("Tasks")
                             Spacer()
                             Button(action: {
-                                
+                                tasks.append("New Element")
                             }, label: {
                                 Image(systemName: "plus")
                                     .resizable()
@@ -36,11 +38,10 @@ struct NewRoomView: View {
                             })
                         }
             ) {
-                Text("Sweep floor")
-                Text("Mop floor")
-                Text("Take out trash")
-                Text("Clean windows")
-                Text("Vaccum Rug")
+                ForEach(tasks, id: \.self) { task in
+                    Text( task )
+                }
+                
             }
             
             

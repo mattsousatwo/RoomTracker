@@ -42,6 +42,7 @@ struct ContentView: View {
                     .tag(1)
             }
             
+            
             .navigationBarTitle("Room Tracker", displayMode: .large)
             .navigationBarItems(trailing: plusButton())
         }

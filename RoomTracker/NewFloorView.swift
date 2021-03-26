@@ -14,22 +14,25 @@ struct NewFloorView: View {
     @State var roomCount: Float
     
     var body: some View {
-        Form {
-            Section(header: Text("Floor Name")) {
-                TextField("Name:", text: $floorName)
+        NavigationView {
+            Form {
+                Section(header: Text("Floor Name")) {
+                    TextField("Name:", text: $floorName)
+                }
+                
+                Section(header: Text("Room Count")) {
+                    
+                    Text("\(roomCount, specifier: "%.0f")")
+                    
+                    Slider(value: $roomCount, in: 0...20)
+                }
+                
+                
             }
             
-            Section(header: Text("Room Count")) {
-       
-                Text("\(roomCount, specifier: "%.0f")")
-              
-                Slider(value: $roomCount, in: 0...20)
-            }
-            
-            
+            .navigationBarTitle(Text("Create New Floor"),
+                                displayMode: .inline)
         }
-        
-        
         
     }
 }
@@ -39,7 +42,7 @@ struct NewFloorView_Previews: PreviewProvider {
         Group {
             NewFloorView(floorName: "", roomCount: 2)
             
-            NewFloorView(floorName: "2nd floor", roomCount: 5).preferredColorScheme(.dark)
+            NewFloorView(floorName: "2nd floor", roomCount: 18).preferredColorScheme(.dark)
         }
         
         

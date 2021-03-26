@@ -13,6 +13,7 @@ struct FloorList: View {
     // Minimum is the mimimum size of each grid item
     let columSize = [ GridItem(.adaptive(minimum: 150)) ]
 
+    private var floors: [FloorCard] = [ FloorCard(status: .inactive), FloorCard(status: .inactive), FloorCard(status: .overdue)]
     
     var body: some View {
         
@@ -20,13 +21,19 @@ struct FloorList: View {
             
             LazyVGrid(columns: columSize, alignment: .center, spacing: 20) {
                 
-                FloorCard(status: .inactive)
-                FloorCard(status: .inactive)
-                FloorCard(status: .inactive)
-                FloorCard(status: .inactive)
-                FloorCard(status: .complete)
-                FloorCard(status: .overdue)
+                ForEach(floors, id: \.self) { floor in
+                    NavigationLink( destination: RoomList()) {
+                            floor
+                                
+                    }.buttonStyle(PlainButtonStyle())
+                }
                 
+
+                    
+        
+                    
+                
+
             }.padding()
         }
         

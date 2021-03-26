@@ -1,16 +1,16 @@
 //
-//  FloorCard.swift
+//  RoomCard.swift
 //  RoomTracker
 //
-//  Created by Matthew Sousa on 3/20/21.
+//  Created by Matthew Sousa on 3/26/21.
 //
 
 import SwiftUI
 
-struct FloorCard: View, Hashable {
+struct RoomCard: View, Hashable {
     
     // Equatable
-    static func == (lhs: FloorCard, rhs: FloorCard) -> Bool {
+    static func == (lhs: RoomCard, rhs: RoomCard) -> Bool {
         return lhs.id == rhs.id
     }
     
@@ -26,6 +26,14 @@ struct FloorCard: View, Hashable {
     
     @State var status: CardColor
     
+    init(status: CardColor) {
+        let state = State(initialValue: status)
+        _status = state
+        let s = String()
+        id = s.genID()
+        
+    }
+    
     private var background: Color {
 
         switch status {
@@ -38,31 +46,24 @@ struct FloorCard: View, Hashable {
         }
     }
     
-    
-    init(status: CardColor) {
-        let state = State(initialValue: status)
-        _status = state
-        let s = String()
-        id = s.genID()
-        
-    }
-    
     var body: some View {
         RoundedRectangle(cornerRadius: 12)
             .frame(width: 150,
                    height: 200,
-                   alignment: .center)
+                   alignment: .topLeading)
             .foregroundColor(background)
             .overlay(
-                ScrollView {
+                
                     VStack {
-                        Text("line 1")
-                        Text("Line 2")
-                            .padding()
+                        Text("Mop")
+                        Text("Sweep")
+                        Text("Trash")
+                        Text("Windows")
+                        Text("Vaccum")
                     }
-                    .padding()
-                }
-                , alignment: .leading)
+                    
+                
+                , alignment: .topLeading)
         
         
         
@@ -70,20 +71,8 @@ struct FloorCard: View, Hashable {
     }
 }
 
-struct FloorCard_Previews: PreviewProvider {
+struct RoomCard_Previews: PreviewProvider {
     static var previews: some View {
-        Group {
-            FloorCard(status: .inactive)
-            FloorCard(status: .complete)
-            FloorCard(status: .overdue)
-        }.previewLayout(.sizeThatFits)
-        
-        Group {
-            FloorCard(status: .inactive)
-            FloorCard(status: .complete)
-            FloorCard(status: .overdue)
-        }.previewLayout(.sizeThatFits)
-        .preferredColorScheme(.dark)
-        
+        RoomCard(status: .complete).previewLayout(.sizeThatFits)
     }
 }
