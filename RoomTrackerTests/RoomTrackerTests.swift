@@ -31,3 +31,25 @@ class RoomTrackerTests: XCTestCase {
     }
 
 }
+
+
+class CoreDataCoderTests: XCTestCase {
+    
+    let coder = CoreDataCoder()
+    
+    func testGenID() {
+        
+        let id = coder.genID()
+        let id2 = coder.genID()
+        let id3 = coder.genID()
+        let id4 = coder.genID()
+        print("\nGenID: \(id), \(id2), \(id3), \(id4)\n")
+        
+        XCTAssertEqual(id.count, 5)
+        
+        
+    }
+    
+    
+    
+}

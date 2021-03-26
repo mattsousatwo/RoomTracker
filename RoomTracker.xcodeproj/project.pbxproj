@@ -11,6 +11,7 @@
 		6041EFFD260E6277008E1B7F /* Room+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6041EFF9260E6277008E1B7F /* Room+CoreDataProperties.swift */; };
 		6041EFFE260E6277008E1B7F /* Floor+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6041EFFA260E6277008E1B7F /* Floor+CoreDataClass.swift */; };
 		6041EFFF260E6277008E1B7F /* Floor+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6041EFFB260E6277008E1B7F /* Floor+CoreDataProperties.swift */; };
+		6041F007260E631A008E1B7F /* CoreDataCoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6041F006260E631A008E1B7F /* CoreDataCoder.swift */; };
 		6067FE602606C95E00B8CA8B /* FloorCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6067FE5F2606C95E00B8CA8B /* FloorCard.swift */; };
 		6067FE652606CA6900B8CA8B /* FloorList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6067FE642606CA6900B8CA8B /* FloorList.swift */; };
 		6067FE6B2606D15800B8CA8B /* Colors+EXT.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6067FE6A2606D15800B8CA8B /* Colors+EXT.swift */; };
@@ -48,6 +49,7 @@
 		6041EFF9260E6277008E1B7F /* Room+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Room+CoreDataProperties.swift"; path = "RoomTracker/Room+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		6041EFFA260E6277008E1B7F /* Floor+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Floor+CoreDataClass.swift"; path = "RoomTracker/Floor+CoreDataClass.swift"; sourceTree = "<group>"; };
 		6041EFFB260E6277008E1B7F /* Floor+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Floor+CoreDataProperties.swift"; path = "RoomTracker/Floor+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		6041F006260E631A008E1B7F /* CoreDataCoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataCoder.swift; sourceTree = "<group>"; };
 		6067FE5F2606C95E00B8CA8B /* FloorCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloorCard.swift; sourceTree = "<group>"; };
 		6067FE642606CA6900B8CA8B /* FloorList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloorList.swift; sourceTree = "<group>"; };
 		6067FE6A2606D15800B8CA8B /* Colors+EXT.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Colors+EXT.swift"; sourceTree = "<group>"; };
@@ -110,6 +112,7 @@
 			isa = PBXGroup;
 			children = (
 				60BB68632603D5BB00E4D1CC /* RoomTracker.xcdatamodeld */,
+				6041F006260E631A008E1B7F /* CoreDataCoder.swift */,
 			);
 			name = "Core Data";
 			sourceTree = "<group>";
@@ -343,6 +346,7 @@
 				60BB68652603D5BB00E4D1CC /* RoomTracker.xcdatamodeld in Sources */,
 				60BB68602603D5BB00E4D1CC /* SceneDelegate.swift in Sources */,
 				6067FE652606CA6900B8CA8B /* FloorList.swift in Sources */,
+				6041F007260E631A008E1B7F /* CoreDataCoder.swift in Sources */,
 				6041EFFD260E6277008E1B7F /* Room+CoreDataProperties.swift in Sources */,
 				60BB68622603D5BB00E4D1CC /* ContentView.swift in Sources */,
 			);
