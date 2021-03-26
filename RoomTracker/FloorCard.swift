@@ -9,16 +9,19 @@ import SwiftUI
 
 struct FloorCard: View {
     
+    @Environment(\.colorScheme) var colorScheme
+    
     @State var status: CardColor
     
     private var background: Color {
+
         switch status {
         case .inactive:
-            return Color.inactiveGrey
+            return  colorScheme == .dark ? Color.inactiveGrayDark : Color.inactiveGray
         case .complete:
-            return Color.completeBlue
+            return colorScheme == .dark ? Color.completeBlueDark : Color.completeBlue
         case .overdue:
-            return Color.overdueRed
+            return colorScheme == .dark ? Color.overdueRedDark : Color.overdueRed
         }
     }
     
@@ -52,5 +55,13 @@ struct FloorCard_Previews: PreviewProvider {
             FloorCard(status: .complete)
             FloorCard(status: .overdue)
         }.previewLayout(.sizeThatFits)
+        
+        Group {
+            FloorCard(status: .inactive)
+            FloorCard(status: .complete)
+            FloorCard(status: .overdue)
+        }.previewLayout(.sizeThatFits)
+        .preferredColorScheme(.dark)
+        
     }
 }

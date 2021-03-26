@@ -26,10 +26,13 @@ public init(red: Int, green: Int, blue: Int, opacity: Double = 1.0) {
     
     
     // Colors
-    public static let inactiveGrey = Color(red: 227, green: 223, blue: 222)
+    public static let inactiveGray = Color(red: 227, green: 223, blue: 222)
     public static let completeBlue = Color(red: 29, green: 132, blue: 181)
     public static let overdueRed = Color(red: 219, green: 84, blue: 97)
     
+    public static let inactiveGrayDark = Color(red: 112, green: 112, blue: 112)
+    public static let completeBlueDark = Color(red: 30, green: 65, blue: 92)
+    public static let overdueRedDark = Color(red: 86, green: 16, blue: 27)
     
     
     
