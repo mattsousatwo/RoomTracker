@@ -17,11 +17,15 @@ struct ContentView: View {
             self.presentCreateNewFloorView.toggle()
             print("Add New Floor : \(presentCreateNewFloorView)")
             
+            
         }, label: {
             Image(systemName: "plus")
                 .resizable()
                 .frame(width: 20, height: 20, alignment: .center)
                 .padding()
+        })
+        .sheet(isPresented: $presentCreateNewFloorView, content: {
+            NewFloorView(floorName: "", roomCount: 0)
         })
     }
      

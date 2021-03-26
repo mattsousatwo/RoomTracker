@@ -25,6 +25,8 @@
 		60BB686D2603D5BC00E4D1CC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 60BB686B2603D5BC00E4D1CC /* LaunchScreen.storyboard */; };
 		60BB68782603D5BC00E4D1CC /* RoomTrackerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60BB68772603D5BC00E4D1CC /* RoomTrackerTests.swift */; };
 		60BB68832603D5BC00E4D1CC /* RoomTrackerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60BB68822603D5BC00E4D1CC /* RoomTrackerUITests.swift */; };
+		60F9D1EC260E7DFD006BD598 /* NewFloorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60F9D1EB260E7DFD006BD598 /* NewFloorView.swift */; };
+		60F9D1F1260E8517006BD598 /* NewRoomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60F9D1F0260E8517006BD598 /* NewRoomView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -69,6 +71,8 @@
 		60BB687E2603D5BC00E4D1CC /* RoomTrackerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RoomTrackerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		60BB68822603D5BC00E4D1CC /* RoomTrackerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomTrackerUITests.swift; sourceTree = "<group>"; };
 		60BB68842603D5BC00E4D1CC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		60F9D1EB260E7DFD006BD598 /* NewFloorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewFloorView.swift; sourceTree = "<group>"; };
+		60F9D1F0260E8517006BD598 /* NewRoomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewRoomView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -123,6 +127,8 @@
 				60BB68612603D5BB00E4D1CC /* ContentView.swift */,
 				6067FE5F2606C95E00B8CA8B /* FloorCard.swift */,
 				6067FE642606CA6900B8CA8B /* FloorList.swift */,
+				60F9D1EB260E7DFD006BD598 /* NewFloorView.swift */,
+				60F9D1F0260E8517006BD598 /* NewRoomView.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -346,6 +352,8 @@
 				60BB68652603D5BB00E4D1CC /* RoomTracker.xcdatamodeld in Sources */,
 				60BB68602603D5BB00E4D1CC /* SceneDelegate.swift in Sources */,
 				6067FE652606CA6900B8CA8B /* FloorList.swift in Sources */,
+				60F9D1F1260E8517006BD598 /* NewRoomView.swift in Sources */,
+				60F9D1EC260E7DFD006BD598 /* NewFloorView.swift in Sources */,
 				6041F007260E631A008E1B7F /* CoreDataCoder.swift in Sources */,
 				6041EFFD260E6277008E1B7F /* Room+CoreDataProperties.swift in Sources */,
 				60BB68622603D5BB00E4D1CC /* ContentView.swift in Sources */,
