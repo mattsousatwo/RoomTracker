@@ -13,7 +13,7 @@ struct FloorList: View {
     // Minimum is the mimimum size of each grid item
     let columSize = [ GridItem(.adaptive(minimum: 150)) ]
 
-    private var floors: [FloorCard] = [ FloorCard(status: .inactive), FloorCard(status: .inactive), FloorCard(status: .overdue)]
+    private var floors: [FloorCard] = [ FloorCard(status: .inactive), FloorCard(status: .inactive), FloorCard(status: .overdue), FloorCard(status: .complete)]
     
     var body: some View {
         
