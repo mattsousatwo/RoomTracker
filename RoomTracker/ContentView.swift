@@ -9,8 +9,10 @@ import SwiftUI
 
 struct ContentView: View {
     
+    // Present CreateNewFloorView 
     @State private var presentCreateNewFloorView = false
     
+    // Button to add to floor list
     private func plusButton() -> some View {
         return Button(action: {
             
@@ -28,23 +30,56 @@ struct ContentView: View {
             NewFloorView(floorName: "", roomCount: 0)
         })
     }
-     
+    
+    // Property to detect change in tabBar
+    @State var selectedView: Int = 1
+    
+    // Title of navbar per view
+    var barTitle: String {
+        switch selectedView {
+        case 1:
+            return "Room Tracker"
+        case 2:
+            return "History"
+        case 3:
+            return "Settings"
+        default:
+            return ""
+        }
+    }
+    
     
     var body: some View {
         
         NavigationView {
-            TabView {
+            TabView(selection: $selectedView) {
                 FloorList()
                     .tabItem {
-                        Image(systemName: "globe")
-                        Text("Home")
+                        Image(systemName: "rectangle.grid.2x2")
+                        Text("Floors")
                     }
                     .tag(1)
+                History()
+                    .tabItem {
+                        Image(systemName: "list.bullet")
+                        Text("History")
+                    }
+                    .tag(2)
+                Settings()
+                    .tabItem {
+                        Image(systemName: "gearshape")
+                        Text("Settings")
+                    }
+                    .tag(3)
+                
+                
             }
             
             
-            .navigationBarTitle("Room Tracker", displayMode: .large)
-            .navigationBarItems(trailing: plusButton())
+            
+            .navigationBarTitle(barTitle, displayMode: .large)
+            .navigationBarItems(trailing: selectedView == 1 ? plusButton() : nil)
+            
         }
         
         
@@ -56,7 +91,7 @@ struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
             ContentView()
-        ContentView().preferredColorScheme(.dark)
+            ContentView().preferredColorScheme(.dark)
         }
     }
 }

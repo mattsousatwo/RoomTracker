@@ -9,11 +9,16 @@ import SwiftUI
 
 struct RoomList: View {
     
+    // Size of colums in grid
     let columSize = [ GridItem(.adaptive(minimum: 150)) ]
-    let rooms: [RoomCard] = [ RoomCard(status: .inactive), RoomCard(status: .inactive), RoomCard(status: .inactive), RoomCard(status: .inactive), RoomCard(status: .complete) ]
     
+    // Rooms being used in view
+    let rooms: [RoomCard] = [ RoomCard(status: .inactive), RoomCard(status: .inactive), RoomCard(status: .inactive), RoomCard(status: .inactive), RoomCard(status: .complete), RoomCard(status: .inactive), RoomCard(status: .inactive), RoomCard(status: .overdue), RoomCard(status: .inactive) ]
+    
+    // Property to trigger CreateNewRoomView to appear
     @State private var presentCreateNewRoomView: Bool = false
     
+    // Button to add a new Room to View
     private func addButton() -> some View {
         return Button(action: {
             self.presentCreateNewRoomView.toggle()
@@ -25,22 +30,16 @@ struct RoomList: View {
         }).sheet(isPresented: $presentCreateNewRoomView, content: {
             NewRoomView(roomName: "")
         })
-        
-        
     }
     
     var body: some View {
         
         ScrollView {
             LazyVGrid(columns: columSize, alignment: .center,  spacing: 20) {
-                
                 ForEach(rooms, id: \.self) { room in
                     room
-                    
                 }
-                
             }
-            
         }
         
         .navigationBarItems(trailing: addButton())

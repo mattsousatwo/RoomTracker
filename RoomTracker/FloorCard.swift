@@ -22,10 +22,13 @@ struct FloorCard: View, Hashable {
     /// Used to identify each room card
     private var id: String = ""
     
+    // Used to detect Light vs Dark Mode
     @Environment(\.colorScheme) var colorScheme
     
+    // State of completion per floor
     @State var status: CardColor
     
+    // Set background color depending on status of completion
     private var background: Color {
 
         switch status {
@@ -38,13 +41,12 @@ struct FloorCard: View, Hashable {
         }
     }
     
-    
+    // Init
     init(status: CardColor) {
         let state = State(initialValue: status)
         _status = state
-        let s = String()
-        id = s.genID()
-        
+        let coder = CoreDataCoder()
+        id = coder.genID()
     }
     
     var body: some View {
@@ -54,18 +56,19 @@ struct FloorCard: View, Hashable {
                    alignment: .center)
             .foregroundColor(background)
             .overlay(
-                ScrollView {
+                
                     VStack {
-                        Text("line 1")
-                        Text("Line 2")
-                            .padding()
+                        Text("Floor Name")
+                            .bold()
+                        Spacer()
+                        HStack {
+                            Spacer()
+                            Text("0/12")
+                                .font(.subheadline)
+                        }
                     }
                     .padding()
-                }
                 , alignment: .leading)
-        
-        
-        
         
     }
 }

@@ -22,20 +22,23 @@ struct RoomCard: View, Hashable {
     /// Used to identify each room card
     private var id: String = ""
     
+    // Used to detect DarkMode || LightMode
     @Environment(\.colorScheme) var colorScheme
     
+    // State of the room Completion by color
     @State var status: CardColor
     
+    // Init
     init(status: CardColor) {
         let state = State(initialValue: status)
         _status = state
-        let s = String()
-        id = s.genID()
+        let coder = CoreDataCoder()
+        id = coder.genID()
         
     }
     
+    // Set color based on status of completion
     private var background: Color {
-
         switch status {
         case .inactive:
             return  colorScheme == .dark ? Color.inactiveGrayDark : Color.inactiveGray
