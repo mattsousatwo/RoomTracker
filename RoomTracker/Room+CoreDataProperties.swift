@@ -21,6 +21,7 @@ extension Room {
     @NSManaged public var date: String?
     @NSManaged public var floorID: String?
     @NSManaged public var tasks: String?
+    @NSManaged public var isComplete: Int16
 
 }
 
