@@ -7,11 +7,18 @@
 
 import Foundation
 
-struct RoomType {
+struct RoomType: Hashable {
     
     let name: String
     let uuid: String
     let tasks: [Task]
+    
+    init(name: String, tasks: [Task] = []) {
+        self.name = name
+        self.tasks = tasks
+        let coder = CoreDataCoder()
+        self.uuid = coder.genID()
+    }
     
     
     

@@ -11,12 +11,12 @@ struct NewRoomView: View {
     
     @State var roomName: String
     
-    @State var tasks: [String] = ["Sweep floor",
-                                  "Mop floor",
-                                  "Take out tash",
-                                  "Clean Windows",
-                                  "Vaccum Rug",
-                                  "Disinfect doorknobs"]
+    @State var tasks: [Task] = [Task(title: "Sweep floor"),
+                                Task(title: "Mop floor"),
+                                Task(title: "Take out tash"),
+                                Task(title: "Clean Windows"),
+                                Task(title: "Vaccum Rug"),
+                                Task(title: "Disinfect doorknobs")]
     
     /// Header for Task Section
     private func taskHeader() -> some View {
@@ -24,7 +24,7 @@ struct NewRoomView: View {
             Text("Tasks")
             Spacer()
             Button(action: {
-                tasks.append("New Element")
+                tasks.append( Task(title: "new Task") )
             }, label: {
                 Image(systemName: "plus")
                     .resizable()
@@ -40,22 +40,19 @@ struct NewRoomView: View {
     /// To detect selected room type in picker
     @State var selectedRoomType: Int = 0
     
-    let types = ["Bathroom", "Classroom"]
+    let types = [RoomType(name: "Classroom"), RoomType(name: "Bathroom")]
     
     private func roomTypePicker() -> some View {
-        
-        
-        
         return Picker(selection: $selectedRoomType,
                       label: Text("Room type: "),
                       content: {
                         
                         ForEach(0..<types.count, id: \.self) { index in
-                            Text(types[index]).tag(index)
+                            Text(types[index].name).tag(index)
                             
                         }
                         
-                      })
+                      }).pickerStyle(SegmentedPickerStyle())
     }
     
     var body: some View {
@@ -68,23 +65,13 @@ struct NewRoomView: View {
             }
             
             Section(header: Text("Room Type")) {
-                
-                Picker(selection: $selectedRoomType,
-                              label: Text("Room type: "),
-                              content: {
-                                
-                                ForEach(0..<types.count, id: \.self) { index in
-                                    Text(types[index]).tag(index)
-                                    
-                                }
-                                
-                              }).pickerStyle(SegmentedPickerStyle())
+                roomTypePicker()
                 
             }
             
             Section(header: taskHeader() ) {
                 ForEach(tasks, id: \.self) { task in
-                    Text( task ).bold()
+                    Text( task.title ).bold()
                 }
                 
             }
