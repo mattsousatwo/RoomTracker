@@ -54,8 +54,15 @@ struct RoomList: View {
             VStack {
                 
                 ForEach(wideRooms, id: \.self) { room in
-                    room
-                        .padding()
+                    NavigationLink(
+                        destination: RoomDetail() ) {
+                        
+                            room
+                            .padding()
+                        
+                            
+                        }.buttonStyle(PlainButtonStyle())
+                    
                     
                 }
                 

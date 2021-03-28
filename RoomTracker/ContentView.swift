@@ -31,16 +31,16 @@ struct ContentView: View {
         })
     }
     
-    // Property to detect change in tabBar
-    @State var selectedView: Int = 1
+    // Property to detect change in tabBar : preset to RoomTracker() 
+    @State var selectedView: Int = 2
     
     // Title of navbar per view
     var barTitle: String {
         switch selectedView {
         case 1:
-            return "Room Tracker"
-        case 2:
             return "History"
+        case 2:
+            return "Room Tracker"
         case 3:
             return "Settings"
         default:
@@ -53,16 +53,16 @@ struct ContentView: View {
         
         NavigationView {
             TabView(selection: $selectedView) {
-                FloorList()
-                    .tabItem {
-                        Image(systemName: "rectangle.grid.2x2")
-                        Text("Floors")
-                    }
-                    .tag(1)
                 History()
                     .tabItem {
                         Image(systemName: "list.bullet")
                         Text("History")
+                    }
+                    .tag(1)
+                FloorList()
+                    .tabItem {
+                        Image(systemName: "rectangle.grid.2x2")
+                        Text("Floors")
                     }
                     .tag(2)
                 Settings()
@@ -78,7 +78,7 @@ struct ContentView: View {
             
             
             .navigationBarTitle(barTitle, displayMode: .large)
-            .navigationBarItems(trailing: selectedView == 1 ? plusButton() : nil)
+            .navigationBarItems(trailing: selectedView == 2 ? plusButton() : nil)
             
         }
         

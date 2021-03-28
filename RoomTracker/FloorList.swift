@@ -25,16 +25,9 @@ struct FloorList: View {
                 ForEach(floors, id: \.self) { floor in
                     NavigationLink( destination: RoomList()) {
                             floor
-                                
                     }.buttonStyle(PlainButtonStyle())
                 }
                 
-
-                    
-        
-                    
-                
-
             }.padding()
         }
         

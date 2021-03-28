@@ -36,13 +36,7 @@ struct WideRoomCard: View, Hashable {
         id = coder.genID()
         
     }
-    
-    let width = UIScreen.main.bounds.width - 60
-    let height = UIScreen.main.bounds.height / 5
-//
-//    var width: CGFloat = 300
-//    var height: CGFloat = 200
-    
+
     // Set color based on status of completion
     private var background: Color {
         switch status {
@@ -67,13 +61,35 @@ struct WideRoomCard: View, Hashable {
         }
     }
     
-    let columnSize = [ GridItem(.adaptive(minimum: 100)) ]
+    /// To set column size in VGrid
+    private let columnSize = [ GridItem(.adaptive(minimum: 100)) ]
+    
+    // Getting the height and width of card depending on screen size
+    private let width = UIScreen.main.bounds.width - 60
+    private let height = UIScreen.main.bounds.height / 5
+
+    
+    /// Change the limit of tasks per card depending on height of device
     var rowLimit: Int {
-        
-        return 4
+        switch height {
+        case 133.4:
+            return 3
+        case 147.2:
+            return 8
+        case 162.4:
+            return 5
+        case 168.8:
+            return 11
+        case 179.2:
+            return 11
+        case 185.2:
+            return 11
+        default:
+            return 0
+        }
     }
     
-    let tasks: [String] = ["Placeholder", "Placeholder", "Placeholder", "Placeholder", "Placeholder", "Placeholder", "Placeholder", "Placeholder", "Placeholder"]
+    let tasks: [String] = ["Placeholder", "Placeholder", "Placeholder", "Placeholder", "Placeholder", "Placeholder", "Placeholder", "Placeholder", "Placeholder", "Placeholder", "Placeholder", "Placeholder", "Placeholder", "Placeholder", "Placeholder"]
     
     var body: some View {
         RoundedRectangle(cornerRadius: 12)
@@ -85,7 +101,7 @@ struct WideRoomCard: View, Hashable {
                 VStack(alignment: .leading) {
                     
                     Text("Room Name").bold()
-                        .padding()
+                        .padding(4)
                     
                     
                     LazyVGrid(columns: columnSize, alignment: .center, spacing: 10) {
