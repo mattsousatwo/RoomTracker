@@ -10,7 +10,7 @@ import SwiftUI
 struct RoomDetail: View {
     var body: some View {
         Form {
-            Text("Room Detial")
+            Text("Room Detail")
             
             Section(header: Text("Tasks")) {
                 Text("Row 1")

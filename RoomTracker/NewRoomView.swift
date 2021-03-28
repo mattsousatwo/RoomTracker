@@ -18,9 +18,47 @@ struct NewRoomView: View {
                                   "Vaccum Rug",
                                   "Disinfect doorknobs"]
     
+    /// Header for Task Section
+    private func taskHeader() -> some View {
+        return HStack {
+            Text("Tasks")
+            Spacer()
+            Button(action: {
+                tasks.append("New Element")
+            }, label: {
+                Image(systemName: "plus")
+                    .resizable()
+                    .frame(width: 15,
+                           height: 15,
+                           alignment: .center)
+                    .padding(.horizontal)
+                    .foregroundColor(.blue)
+            })
+        }
+    }
+    
+    /// To detect selected room type in picker
+    @State var selectedRoomType: Int = 0
+    
+    let types = ["Bathroom", "Classroom"]
+    
+    private func roomTypePicker() -> some View {
+        
+        
+        
+        return Picker(selection: $selectedRoomType,
+                      label: Text("Room type: "),
+                      content: {
+                        
+                        ForEach(0..<types.count, id: \.self) { index in
+                            Text(types[index]).tag(index)
+                            
+                        }
+                        
+                      })
+    }
+    
     var body: some View {
-        
-        
         
         Form {
             
@@ -29,23 +67,22 @@ struct NewRoomView: View {
                 
             }
             
-            Section(header:
-                        HStack {
-                            Text("Tasks")
-                            Spacer()
-                            Button(action: {
-                                tasks.append("New Element")
-                            }, label: {
-                                Image(systemName: "plus")
-                                    .resizable()
-                                    .frame(width: 15,
-                                           height: 15,
-                                           alignment: .center)
-                                    .padding(.horizontal)
-                                    .foregroundColor(.blue)
-                            })
-                        }
-            ) {
+            Section(header: Text("Room Type")) {
+                
+                Picker(selection: $selectedRoomType,
+                              label: Text("Room type: "),
+                              content: {
+                                
+                                ForEach(0..<types.count, id: \.self) { index in
+                                    Text(types[index]).tag(index)
+                                    
+                                }
+                                
+                              }).pickerStyle(SegmentedPickerStyle())
+                
+            }
+            
+            Section(header: taskHeader() ) {
                 ForEach(tasks, id: \.self) { task in
                     Text( task ).bold()
                 }

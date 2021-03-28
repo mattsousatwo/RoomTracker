@@ -77,7 +77,7 @@ struct WideRoomCard: View, Hashable {
         case 147.2:
             return 8
         case 162.4:
-            return 5
+            return 7
         case 168.8:
             return 11
         case 179.2:
@@ -101,7 +101,8 @@ struct WideRoomCard: View, Hashable {
                 VStack(alignment: .leading) {
                     
                     Text("Room Name").bold()
-                        .padding(4)
+                        .padding(.vertical, 4)
+                        .padding(.horizontal)
                     
                     
                     LazyVGrid(columns: columnSize, alignment: .center, spacing: 10) {
