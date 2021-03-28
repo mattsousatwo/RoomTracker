@@ -52,20 +52,27 @@ struct RoomCard: View, Hashable {
     var body: some View {
         RoundedRectangle(cornerRadius: 12)
             .frame(width: 150,
-                   height: 200,
-                   alignment: .topLeading)
+                   height: 200)
+//                   alignment: .topLeading)
             .foregroundColor(background)
             .overlay(
                 
-                    VStack {
-                        Text("Mop")
-                        Text("Sweep")
+                VStack(alignment: .leading) {
+                    Text("Mop")
+                            .padding(.top, 6)
+                            .padding(1)
+                    Text("Sweep")
+                            .padding(1)
                         Text("Trash")
+                            .padding(1)
                         Text("Windows")
+                            .padding(1)
                         Text("Vaccum")
-                    }
-                    
+                            .padding(1)
+                            
+                }.padding(.horizontal, 4)
                 
+
                 , alignment: .topLeading)
         
         

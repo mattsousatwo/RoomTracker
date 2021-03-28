@@ -11,14 +11,22 @@ struct NewRoomView: View {
     
     @State var roomName: String
     
-    @State var tasks: [String] = ["Sweep floor", "Mop floor", "Take out tash", "Clean Windows", "Vaccum Rug", "Disinfect doorknobs"]
+    @State var tasks: [String] = ["Sweep floor",
+                                  "Mop floor",
+                                  "Take out tash",
+                                  "Clean Windows",
+                                  "Vaccum Rug",
+                                  "Disinfect doorknobs"]
     
     var body: some View {
+        
+        
         
         Form {
             
             Section(header: Text("Room Name")) {
                 TextField("Room Name:", text: $roomName)
+                
             }
             
             Section(header:
@@ -39,7 +47,7 @@ struct NewRoomView: View {
                         }
             ) {
                 ForEach(tasks, id: \.self) { task in
-                    Text( task )
+                    Text( task ).bold()
                 }
                 
             }

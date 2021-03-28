@@ -15,6 +15,21 @@ struct RoomList: View {
     // Rooms being used in view
     let rooms: [RoomCard] = [ RoomCard(status: .inactive), RoomCard(status: .inactive), RoomCard(status: .inactive), RoomCard(status: .inactive), RoomCard(status: .complete), RoomCard(status: .inactive), RoomCard(status: .inactive), RoomCard(status: .overdue), RoomCard(status: .inactive) ]
     
+    let wideRooms: [WideRoomCard] = [
+        WideRoomCard(status: .inactive),
+        WideRoomCard(status: .complete),
+        WideRoomCard(status: .overdue),
+        WideRoomCard(status: .inactive),
+        WideRoomCard(status: .inactive),
+        WideRoomCard(status: .inactive),
+        WideRoomCard(status: .inactive),
+        WideRoomCard(status: .inactive),
+        WideRoomCard(status: .inactive),
+        WideRoomCard(status: .inactive),
+        WideRoomCard(status: .inactive)
+    ]
+    
+    
     // Property to trigger CreateNewRoomView to appear
     @State private var presentCreateNewRoomView: Bool = false
     
@@ -34,14 +49,20 @@ struct RoomList: View {
     
     var body: some View {
         
-        ScrollView {
-            LazyVGrid(columns: columSize, alignment: .center,  spacing: 20) {
-                ForEach(rooms, id: \.self) { room in
+        ScrollView(showsIndicators: false) {
+//            LazyVGrid(columns: columSize, alignment: .center,  spacing: 20) {
+            VStack {
+                
+                ForEach(wideRooms, id: \.self) { room in
                     room
+                        .padding()
+                    
                 }
+                
             }
         }
         
+        .navigationTitle(Text("Floor Name"))
         .navigationBarItems(trailing: addButton())
         
     }

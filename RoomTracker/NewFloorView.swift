@@ -22,7 +22,7 @@ struct NewFloorView: View {
                 
                 Section(header: Text("Room Count")) {
                     
-                    Text("\(roomCount, specifier: "%.0f")")
+                    Text("\(roomCount, specifier: "%.0f")").bold()
                     
                     Slider(value: $roomCount, in: 0...20)
                 }
