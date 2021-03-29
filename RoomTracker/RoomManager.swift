@@ -11,6 +11,8 @@ import CoreData
 class RoomManager: CoreDataPersistantManager {
     
     @Published var allRooms = [Room]()
+    @Published var roomsForFloor = [Room]()
+    
     
     override init() {
         super.init()
@@ -20,12 +22,20 @@ class RoomManager: CoreDataPersistantManager {
     }
     
     /// Create new Room Element
-    func createNew(room name: String) {
+    func createNew(room name: String, floorID: String) {
         guard let context = context else { return }
         let newRoom = Room(context: context)
         
-        newRoom.uuid = genID()
         newRoom.name = name
+        newRoom.uuid = genID()
+        newRoom.floorID = floorID
+        newRoom.tasks = ""
+        newRoom.isComplete = CompleteRoomKey.incomplete.rawValue
+        
+        let date = Date()
+        let formatter = DateFormatter()
+        let formattedDate = formatter.convertToStandardDateAsString(date)
+        newRoom.date = formattedDate
         
         saveSelectedContext()
     }
@@ -42,4 +52,10 @@ class RoomManager: CoreDataPersistantManager {
 
     }
     
+}
+
+/// Used to set Room.isComplete value to 0 or 1 only
+enum CompleteRoomKey: Int16 {
+    case complete = 1
+    case incomplete = 0
 }

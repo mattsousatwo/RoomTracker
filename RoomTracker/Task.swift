@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Task: Hashable {
+struct Task: Hashable, Codable {
     
     let title: String
     let isComplete: Bool

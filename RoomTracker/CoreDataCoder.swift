@@ -30,10 +30,30 @@ class CoreDataCoder {
                 id.append(character)
             }
             
-
+            
         }
         
         return id
+    }
+    
+    
+    
+    lazy var decoder = JSONDecoder()
+    lazy var encoder = JSONEncoder()
+    
+    /// Convert [Task] to String
+    func encodeTasks(_ tasks: [Task]) -> String? {
+        encoder.outputFormatting = .prettyPrinted
+        guard let data = try? encoder.encode(tasks) else { return nil }
+        return String(data: data, encoding: .utf8)
+    }
+    
+    /// Convert String to [Task]
+    func decodeTasks(_ tasks: String) -> [Task]? {
+        guard let data = tasks.data(using: .utf8) else { return nil }
+        guard let taskList = try? decoder.decode([Task].self, from: data) else { return nil }
+        return taskList
+        
     }
     
     

@@ -23,6 +23,7 @@
 		606C25A426113A6200BF2A39 /* EntityNames.swift in Sources */ = {isa = PBXBuildFile; fileRef = 606C25A326113A6200BF2A39 /* EntityNames.swift */; };
 		606C25A926113CBB00BF2A39 /* RoomManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 606C25A826113CBB00BF2A39 /* RoomManager.swift */; };
 		606C25AE26113CDA00BF2A39 /* FloorManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 606C25AD26113CDA00BF2A39 /* FloorManager.swift */; };
+		606C25B3261140F100BF2A39 /* DateFormatter+EXT.swift in Sources */ = {isa = PBXBuildFile; fileRef = 606C25B2261140F100BF2A39 /* DateFormatter+EXT.swift */; };
 		607F0D8D260E97E40064C9FB /* RoomList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607F0D8C260E97E40064C9FB /* RoomList.swift */; };
 		607F0D92260E98700064C9FB /* RoomCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607F0D91260E98700064C9FB /* RoomCard.swift */; };
 		60A356EF260F665100ED3A64 /* History.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60A356EE260F665100ED3A64 /* History.swift */; };
@@ -75,6 +76,7 @@
 		606C25A326113A6200BF2A39 /* EntityNames.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityNames.swift; sourceTree = "<group>"; };
 		606C25A826113CBB00BF2A39 /* RoomManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomManager.swift; sourceTree = "<group>"; };
 		606C25AD26113CDA00BF2A39 /* FloorManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloorManager.swift; sourceTree = "<group>"; };
+		606C25B2261140F100BF2A39 /* DateFormatter+EXT.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DateFormatter+EXT.swift"; sourceTree = "<group>"; };
 		607F0D8C260E97E40064C9FB /* RoomList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomList.swift; sourceTree = "<group>"; };
 		607F0D91260E98700064C9FB /* RoomCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomCard.swift; sourceTree = "<group>"; };
 		60A356EE260F665100ED3A64 /* History.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = History.swift; sourceTree = "<group>"; };
@@ -165,6 +167,7 @@
 			isa = PBXGroup;
 			children = (
 				6067FE6A2606D15800B8CA8B /* Colors+EXT.swift */,
+				606C25B2261140F100BF2A39 /* DateFormatter+EXT.swift */,
 			);
 			name = Extension;
 			sourceTree = "<group>";
@@ -422,6 +425,7 @@
 				60F9D1F1260E8517006BD598 /* NewRoomView.swift in Sources */,
 				60A356F4260F690A00ED3A64 /* Settings.swift in Sources */,
 				60F9D1EC260E7DFD006BD598 /* NewFloorView.swift in Sources */,
+				606C25B3261140F100BF2A39 /* DateFormatter+EXT.swift in Sources */,
 				6041F007260E631A008E1B7F /* CoreDataCoder.swift in Sources */,
 				6041EFFD260E6277008E1B7F /* Room+CoreDataProperties.swift in Sources */,
 				606C259C261138CA00BF2A39 /* CoreDataPersistantManager.swift in Sources */,
