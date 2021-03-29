@@ -17,6 +17,10 @@ struct Settings: View {
                 Text("Use default tasks")
                 
             }
+            
+            Section {
+                Text("Max Room Count for slider: 20 ")
+            }
         }
             
     }

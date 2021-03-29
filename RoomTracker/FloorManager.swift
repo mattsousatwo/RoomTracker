@@ -8,7 +8,9 @@
 import Foundation
 import CoreData
 
-class FloorManager: CoreDataPersistantManager {
+class FloorManager: CoreDataPersistantManager, ObservableObject {
+    
+    @Published var allFloors = [Floor]()
     
     override init() {
         super.init()
@@ -16,5 +18,34 @@ class FloorManager: CoreDataPersistantManager {
         entity = NSEntityDescription.entity(forEntityName: EntityNames.floor.rawValue, in: foundContext)!
         print("FloorManager()" )
     }
+    
+    /// Create new Floor
+    func createNewFloor(_ name: String, id: String? = nil) -> String? {
+        guard let context = context else { return nil }
+        let newFloor = Floor(context: context)
+        
+        newFloor.name = name
+        if let id = id {
+            newFloor.uuid = id
+        } else {
+            newFloor.uuid = genID()
+        }
+        allFloors.append(newFloor)
+        saveSelectedContext()
+        
+        return newFloor.uuid
+    }
+    
+    /// Fetch All Floors
+    func fetchAll() {
+        guard let context = context else { return }
+        let request: NSFetchRequest<Floor> = Floor.fetchRequest()
+        do {
+            allFloors = try context.fetch(request)
+        } catch {
+            print(error)
+        }
+    }
+    
     
 }

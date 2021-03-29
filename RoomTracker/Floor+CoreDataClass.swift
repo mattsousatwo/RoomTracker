@@ -11,5 +11,18 @@ import CoreData
 
 @objc(Floor)
 public class Floor: NSManagedObject {
+    
+    let floorManager = FloorManager()
+    
+    /// Update selected property
+    func update(name: String) {
+        if self.name != name {
+            self.name = name
+        }
+        if self.hasChanges == true {
+            floorManager.saveSelectedContext()
+        }
+        
+    }
 
 }

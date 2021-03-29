@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct RoomType: Hashable {
+struct RoomType: Hashable, Codable {
     
     let name: String
     let uuid: String
@@ -19,7 +19,5 @@ struct RoomType: Hashable {
         let coder = CoreDataCoder()
         self.uuid = coder.genID()
     }
-    
-    
     
 }

@@ -27,7 +27,7 @@ struct ContentView: View {
                 .padding()
         })
         .sheet(isPresented: $presentCreateNewFloorView, content: {
-            NewFloorView(floorName: "", roomCount: 0)
+            NewFloorView(floorName: "", roomCount: 0, bathroomCount: 0, stairwellCount: 0, isPresented: $presentCreateNewFloorView)
         })
     }
     

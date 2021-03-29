@@ -9,7 +9,7 @@ import Foundation
 
 class CoreDataCoder {
     
-    /// Generate String ID of characters and numbers 
+    /// Generate String ID of characters and numbers
     func genID(_ digitCount: Int = 5) -> String {
         var id = String()
         let chars = ["A", "B", "C", "D", "E", "F",
@@ -30,13 +30,10 @@ class CoreDataCoder {
                 id.append(character)
             }
             
-            
         }
         
         return id
     }
-    
-    
     
     lazy var decoder = JSONDecoder()
     lazy var encoder = JSONEncoder()
@@ -57,5 +54,19 @@ class CoreDataCoder {
     }
     
     
+    /// Convert [RoomType] to String
+    func encodeRoomType(_ type: RoomType) -> String? {
+        encoder.outputFormatting = .prettyPrinted
+        guard let data = try? encoder.encode(type) else { return nil }
+        return String(data: data, encoding: .utf8)
+    }
+    
+    /// Convert String to [RoomType]
+    func decodeRoomType(_ type: String) -> RoomType? {
+        guard let data = type.data(using: .utf8) else { return nil }
+        guard let roomTypeList = try? decoder.decode(RoomType.self, from: data) else { return nil }
+        return roomTypeList
+        
+    }
     
 }
