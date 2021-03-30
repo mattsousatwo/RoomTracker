@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum EntityNames: String {
+enum EntityNames: String, CaseIterable {
     case floor = "Floor"
     case room = "Room"
 }

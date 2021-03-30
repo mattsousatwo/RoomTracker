@@ -41,6 +41,13 @@ class CoreDataPersistantManager: CoreDataCoder {
         }
     }
     
+    /// Delete all entities
+    func deleteAllEntites() {
+        for name in EntityNames.allCases {
+            deleteAll(name)
+        }
+    }
+    
     /// Delete specific element for type
     func deleteSpecificElement(_ name: EntityNames, id: String) {
         guard let context = context else { return }

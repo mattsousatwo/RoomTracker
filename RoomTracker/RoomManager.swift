@@ -71,6 +71,19 @@ extension RoomManager {
         } catch {
             print(error)
         }
+        print("RoomTotal: \(allRooms.count)")
+    }
+    
+    /// Pull from fetched rooms
+    func extractAllRooms() -> [Room]? {
+        fetchAllRooms()
+        if allRooms.count == 0 {
+            return nil
+        }
+        else {
+            return allRooms
+        }
+        
     }
     
     /// Fetch Room by uuid

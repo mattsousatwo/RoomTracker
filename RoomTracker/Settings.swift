@@ -21,6 +21,29 @@ struct Settings: View {
             Section {
                 Text("Max Room Count for slider: 20 ")
             }
+            
+            Section {
+                Button(action: {
+                    let coredata = CoreDataPersistantManager() 
+                    coredata.deleteAllEntites()
+                    print("DeleteAll")
+                }, label: {
+                    HStack {
+                        Spacer()
+                        RoundedRectangle(cornerRadius: 12)
+                            .frame(width: 300,
+                                   height: 50)
+                            .foregroundColor(.red)
+                            .overlay(
+                                Text("Delete All")
+                                    .bold()
+                                    .foregroundColor(.pGray)
+                                , alignment: .center)
+                        Spacer()
+                    }
+                })
+
+            }
         }
             
     }

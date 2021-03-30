@@ -11,13 +11,14 @@ struct Task: Hashable, Codable {
     
     /// Coding keys for encoding
     private enum CodingKeys: CodingKey {
-        case title, isComplete, uuid
+        case title, preview, isComplete, uuid
     }
     
     /// Decoding
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         title = try container.decode(String.self, forKey: .title)
+        preview = try container.decode(String.self, forKey: .preview)
         isComplete = try container.decode(Bool.self, forKey: .isComplete)
         uuid = try container.decode(String.self, forKey: .uuid)
     }
@@ -26,6 +27,7 @@ struct Task: Hashable, Codable {
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(title, forKey: .title)
+        try container.encode(preview, forKey: .preview)
         try container.encode(isComplete, forKey: .isComplete)
         try container.encode(uuid, forKey: .uuid)
     }
@@ -43,14 +45,24 @@ struct Task: Hashable, Codable {
     let coredataCoder = CoreDataCoder()
     
     let title: String
-    let isComplete: Bool
+    let preview: String
+    var isComplete: Bool
     let uuid: String
     
-    init(title: String) {
+    init(title: String, preview: String, isComplete: Bool? = nil, uuid: String? = nil) {
         self.title = title
-        self.isComplete = false
-        let coder = CoreDataCoder()
-        self.uuid = coder.genID()
+        self.preview = preview
+        if var isComplete = isComplete {
+            self.isComplete = isComplete
+        } else {
+            self.isComplete = false
+        }
+        if let uuid = uuid {
+            self.uuid = uuid
+        } else {
+            let coder = CoreDataCoder()
+            self.uuid = coder.genID()
+        }
     }
     
 }

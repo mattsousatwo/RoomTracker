@@ -33,11 +33,11 @@ struct FloorCard: View, Hashable {
 
         switch status {
         case .inactive:
-            return  colorScheme == .dark ? Color.inactiveGrayDark : Color.inactiveGray
+            return  colorScheme == .dark ? Color.inactiveDarkGray : Color.inactiveGray
         case .complete:
-            return colorScheme == .dark ? Color.completeBlueDark : Color.completeBlue
+            return colorScheme == .dark ? Color.completeDarkBlue : Color.completeBlue
         case .overdue:
-            return colorScheme == .dark ? Color.overdueRedDark : Color.overdueRed
+            return colorScheme == .dark ? Color.overdueDarkRed : Color.overdueRed
         }
     }
     

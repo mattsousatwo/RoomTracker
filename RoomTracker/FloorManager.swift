@@ -20,7 +20,7 @@ class FloorManager: CoreDataPersistantManager, ObservableObject {
     }
     
     /// Create new Floor
-    func createNewFloor(_ name: String, id: String? = nil) -> String? {
+    func createNewFloor(_ name: String, id: String? = nil) -> Floor? {
         guard let context = context else { return nil }
         let newFloor = Floor(context: context)
         
@@ -33,7 +33,7 @@ class FloorManager: CoreDataPersistantManager, ObservableObject {
         allFloors.append(newFloor)
         saveSelectedContext()
         
-        return newFloor.uuid
+        return newFloor
     }
     
     /// Fetch All Floors
@@ -45,6 +45,20 @@ class FloorManager: CoreDataPersistantManager, ObservableObject {
         } catch {
             print(error)
         }
+    }
+    
+    /// Pull from fetched floors 
+    func extractAllFloors() -> [Floor]? {
+        if allFloors.count == 0 {
+            fetchAll()
+        }
+        if allFloors.count == 0 {
+            return nil
+        }
+        else {
+            return allFloors
+        }
+        
     }
     
     

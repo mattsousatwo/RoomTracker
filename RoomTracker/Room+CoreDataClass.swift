@@ -55,5 +55,31 @@ public class Room: NSManagedObject {
         }
     }
     
+    /// Convert Tasks: String to Tasks: [Task]
+    func convertTasks() -> [Task] {
+        var taskArray = [Task]()
+        let coredataCoder = CoreDataCoder()
+        if let savedTasks = self.tasks {
+            if let tasks = coredataCoder.decodeTasks(savedTasks) {
+                taskArray = tasks
+            }
+        }
+        return taskArray
+    }
+    
+    /// Complete all tasks
+    func setAllTasksToComplete() {
+        guard let savedTasks = self.tasks else { return }
+        guard let tasks = roomManager.decodeTasks(savedTasks) else { return }
+        
+        var newTasks: [Task] = []
+        
+        for task in tasks {
+            newTasks.append(Task(title: task.title, preview: task.preview, isComplete: true))
+        }
+        
+        self.update(tasks: newTasks)
+    }
+    
     
 }

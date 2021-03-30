@@ -9,14 +9,36 @@ import SwiftUI
 
 struct NewRoomView: View {
     
+    var floorID: String
     @State var roomName: String
+    @Binding var isPresented: Bool
     
-    @State var tasks: [Task] = [Task(title: "Sweep floor"),
-                                Task(title: "Mop floor"),
-                                Task(title: "Take out tash"),
-                                Task(title: "Clean Windows"),
-                                Task(title: "Vaccum Rug"),
-                                Task(title: "Disinfect doorknobs")]
+    
+    /// Button to cancel new room creation
+    private func cancelButton() -> some View {
+        return Button(action: {
+            self.isPresented = false
+        } , label: {
+            Text("Cancel").foregroundColor(.red)
+        })
+    }
+
+    
+    @State var tasks: [Task] = []
+    
+    /// Update tasks list depending on selected room type
+    private func updateTasks() {
+        switch selectedRoomType {
+        case DefaultRoomTypes.bathroom.rawValue:
+            self.tasks = DefaultRoomTypes.bathroom.tasks
+        case DefaultRoomTypes.classroom.rawValue:
+            self.tasks = DefaultRoomTypes.classroom.tasks
+        case DefaultRoomTypes.staircase.rawValue:
+            self.tasks = DefaultRoomTypes.staircase.tasks
+        default:
+            break
+        }
+    }
     
     /// Header for Task Section
     private func taskHeader() -> some View {
@@ -24,7 +46,7 @@ struct NewRoomView: View {
             Text("Tasks")
             Spacer()
             Button(action: {
-                tasks.append( Task(title: "new Task") )
+                tasks.append( Task(title: "new Task", preview: "New") )
             }, label: {
                 Image(systemName: "plus")
                     .resizable()
@@ -40,7 +62,7 @@ struct NewRoomView: View {
     /// To detect selected room type in picker
     @State var selectedRoomType: Int = 0
     
-    let types = [RoomType(name: "Classroom"), RoomType(name: "Bathroom")]
+    let types = [DefaultRoomTypes.classroom.roomType, DefaultRoomTypes.bathroom.roomType, DefaultRoomTypes.staircase.roomType]
     
     private func roomTypePicker() -> some View {
         return Picker(selection: $selectedRoomType,
@@ -53,10 +75,16 @@ struct NewRoomView: View {
                         }
                         
                       }).pickerStyle(SegmentedPickerStyle())
+            .onChange(of: selectedRoomType, perform: { value in
+                
+                    updateTasks()
+                
+            })
     }
     
     var body: some View {
-        
+    
+        NavigationView {
         Form {
             
             Section(header: Text("Room Name")) {
@@ -74,11 +102,46 @@ struct NewRoomView: View {
                     Text( task.title ).bold()
                 }
                 
+                
+            }
+            
+            Section {
+                Button(action: {
+                    let roomManager = RoomManager()
+                    
+                    roomManager.createNew(room: roomName,
+                                          floorID: floorID,
+                                          tasks: tasks)
+                    
+                    print("Save")
+                }, label: {
+                    HStack {
+                        Spacer()
+                        RoundedRectangle(cornerRadius: 12)
+                            .frame(width: 300,
+                                   height: 50)
+                            .foregroundColor(.blue)
+                            .overlay(
+                                Text("Save")
+                                    .foregroundColor(.pGray)
+                                , alignment: .center)
+                        Spacer()
+                    }
+                })
             }
             
             
         }
+        .onAppear {
+            
+            updateTasks()
+            
+        }
+        .navigationBarTitle(Text("Create New Room"),
+                            displayMode: .inline)
+            .navigationBarItems(leading: cancelButton())
         
+        }
         
     }
     
@@ -86,6 +149,6 @@ struct NewRoomView: View {
 
 struct NewRoomView_Previews: PreviewProvider {
     static var previews: some View {
-        NewRoomView(roomName: "")
+        NewRoomView(floorID: "", roomName: "", isPresented: .constant(true ))
     }
 }

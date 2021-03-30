@@ -9,27 +9,13 @@ import SwiftUI
 
 struct RoomList: View {
     
-    // Size of colums in grid
-    let columSize = [ GridItem(.adaptive(minimum: 150)) ]
+    var floor: Floor?
     
-    // Rooms being used in view
-    let rooms: [RoomCard] = [ RoomCard(status: .inactive), RoomCard(status: .inactive), RoomCard(status: .inactive), RoomCard(status: .inactive), RoomCard(status: .complete), RoomCard(status: .inactive), RoomCard(status: .inactive), RoomCard(status: .overdue), RoomCard(status: .inactive) ]
+    @ObservedObject var roomManager = RoomManager()
     
-    let wideRooms: [WideRoomCard] = [
-        WideRoomCard(status: .inactive),
-        WideRoomCard(status: .complete),
-        WideRoomCard(status: .overdue),
-        WideRoomCard(status: .inactive),
-        WideRoomCard(status: .inactive),
-        WideRoomCard(status: .inactive),
-        WideRoomCard(status: .inactive),
-        WideRoomCard(status: .inactive),
-        WideRoomCard(status: .inactive),
-        WideRoomCard(status: .inactive),
-        WideRoomCard(status: .inactive)
-    ]
-    
-    
+    /// List of saved rooms in coredata
+    @State var savedRooms: [Room]?
+
     // Property to trigger CreateNewRoomView to appear
     @State private var presentCreateNewRoomView: Bool = false
     
@@ -43,32 +29,46 @@ struct RoomList: View {
                 .frame(width: 20, height: 20, alignment: .center)
                 .padding()
         }).sheet(isPresented: $presentCreateNewRoomView, content: {
-            NewRoomView(roomName: "")
+            if let floor = floor {
+                if let floorID = floor.uuid {
+                    NewRoomView(floorID: floorID, roomName: "", isPresented: $presentCreateNewRoomView)
+                }
+            }
         })
+        
     }
+    
+    
+    
     
     var body: some View {
         
         ScrollView(showsIndicators: false) {
-//            LazyVGrid(columns: columSize, alignment: .center,  spacing: 20) {
             VStack {
                 
-                ForEach(wideRooms, id: \.self) { room in
+                if let savedRooms = savedRooms {
+                    ForEach(savedRooms, id: \.self) { room in
                     NavigationLink(
-                        destination: RoomDetail() ) {
+                        destination: RoomDetail(room: room) ) {
                         
-                            room
+                        WideRoomCard(status: .inactive, room: room).equatable()
                             .padding()
-                        
                             
                         }.buttonStyle(PlainButtonStyle())
+                        
                     
+                    }
+                } else {
                     
                 }
                 
+                
+                
             }
         }
-        
+        .onAppear {
+            savedRooms = roomManager.extractAllRooms()
+        }
         .navigationTitle(Text("Floor Name"))
         .navigationBarItems(trailing: addButton())
         

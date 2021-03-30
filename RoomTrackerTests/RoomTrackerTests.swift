@@ -33,7 +33,7 @@ class CoreDataCoderTests: XCTestCase {
 
     /// Test if encoding and decoding RoomType Works
     func testDecodingRoomType() {
-        let tasks = [Task(title: "Clean Room"), Task(title: "Mop Floors")]
+        let tasks = [Task(title: "Clean Room", preview: "Clean"), Task(title: "Mop Floors", preview: "Mop")]
         
         let controlRoomType = RoomType(name: "Room Name", tasks: tasks)
         
@@ -48,7 +48,7 @@ class CoreDataCoderTests: XCTestCase {
     
     /// Test if encoding and decoding Task works
     func testDecodingTasks() {
-        let tasks = [Task(title: "Clean Room"), Task(title: "Mop Floors")]
+        let tasks = [Task(title: "Clean Room", preview: "Clean"), Task(title: "Mop Floors", preview: "Mop")]
         
         guard let tasksAsString = coder.encodeTasks(tasks) else { return }
         
@@ -70,7 +70,7 @@ class RoomManagerTests: XCTestCase {
     /// Create a test room
     func testIfCanCreateRoom() {
         
-        roomManager.createNew(room: roomID, floorID: floorID)
+        roomManager.createNew(room: roomID, floorID: floorID, tasks: DefaultRoomTypes.classroom.tasks)
         
         roomManager.fetchSpecificRoom(id: roomID)
         
@@ -119,7 +119,7 @@ class FloorManagerTests: XCTestCase {
     /// Test if creating a new floor works
     func testIfCreatingNewFloorWorks() {
         
-        floorManager.createNewFloor("", id: floorID)
+        _ = floorManager.createNewFloor("", id: floorID)
         
         floorManager.fetchAll()
         
@@ -131,6 +131,19 @@ class FloorManagerTests: XCTestCase {
         floorManager.fetchAll()
         floorManager.deleteSpecificElement(.floor, id: floorID)
         floorManager.fetchAll()
+        XCTAssertEqual(floorManager.allFloors.count, 0)
+        
+    }
+    
+    /// Delete Specific Room
+    func testDeletingAllFloors() {
+        
+        floorManager.fetchAll()
+        
+        floorManager.deleteAll(.floor)
+        
+        floorManager.fetchAll()
+        
         XCTAssertEqual(floorManager.allFloors.count, 0)
         
     }

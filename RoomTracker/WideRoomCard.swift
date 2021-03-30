@@ -29,24 +29,39 @@ struct WideRoomCard: View, Hashable {
     @State var status: CardColor
     
     // Init
-    init(status: CardColor) {
+    init(status: CardColor, room: Room) {
         let state = State(initialValue: status)
         _status = state
         let coder = CoreDataCoder()
         id = coder.genID()
-        
+        self.room = room
     }
 
     // Set color based on status of completion
     private var background: Color {
-        switch status {
-        case .inactive:
-            return  colorScheme == .dark ? Color.inactiveGrayDark : Color.inactiveGray
-        case .complete:
-            return colorScheme == .dark ? Color.completeBlueDark : Color.completeBlue
-        case .overdue:
-            return colorScheme == .dark ? Color.overdueRedDark : Color.overdueRed
+        
+        switch taskCount.isComplete {
+        case true:
+            
+            // Check if date is equal to today {
+            //   if not return overdue   -  colorScheme == .dark ? Color.overdueDarkRed : Color.overdueRed
+            // }
+            print("room: \(room.name), isComplete \(taskCount.completeCount):\(taskCount.totalCount)")
+            return colorScheme == .dark ? Color.completeDarkBlue : Color.completeBlue
+            
+        case false:
+            print("room: \(room.name), is Inactive")
+            return  colorScheme == .dark ? Color.inactiveDarkGray : Color.inactiveGray
         }
+        
+//        switch status {
+//        case .inactive:
+//            return  colorScheme == .dark ? Color.inactiveDarkGray : Color.inactiveGray
+//        case .complete:
+//            return colorScheme == .dark ? Color.completeDarkBlue : Color.completeBlue
+//        case .overdue:
+//            return colorScheme == .dark ? Color.overdueDarkRed : Color.overdueRed
+//        }
     }
     
     // Set color of text based on colorScheme
@@ -70,7 +85,7 @@ struct WideRoomCard: View, Hashable {
 
     
     /// Change the limit of tasks per card depending on height of device
-    var rowLimit: Int {
+    private var rowLimit: Int {
         switch height {
         case 133.4:
             return 3
@@ -89,7 +104,45 @@ struct WideRoomCard: View, Hashable {
         }
     }
     
-    let tasks: [String] = ["Placeholder", "Placeholder", "Placeholder", "Placeholder", "Placeholder", "Placeholder", "Placeholder", "Placeholder", "Placeholder", "Placeholder", "Placeholder", "Placeholder", "Placeholder", "Placeholder", "Placeholder"]
+    let room: Room
+    
+    /// List of tasks from saved Room
+    private var tasks: [Task] {
+        var taskArray = [Task]()
+        
+        let coredataCoder = CoreDataCoder()
+        if let savedTasks = room.tasks {
+            if let tasks = coredataCoder.decodeTasks(savedTasks) {
+                taskArray = tasks
+            }
+        }
+        
+        return taskArray
+    }
+    
+    /// Title of room from  saved room
+    private var title: String {
+        var titleString = ""
+        if let name = room.name {
+            titleString = name
+        }
+        return titleString
+    }
+    
+    /// Task count
+    private var taskCount: TaskCount {
+        var completeCount = 0
+        for task in tasks {
+            if task.isComplete == true {
+                completeCount += 1
+            }
+        }
+        
+        let taskCount = TaskCount(complete: completeCount, total: tasks.count)
+        
+        return taskCount
+    }
+    
     
     var body: some View {
         RoundedRectangle(cornerRadius: 12)
@@ -100,7 +153,7 @@ struct WideRoomCard: View, Hashable {
                 
                 VStack(alignment: .leading) {
                     
-                    Text("Room Name").bold()
+                    Text(title).bold()
                         .padding(.vertical, 4)
                         .padding(.horizontal)
                     
@@ -111,7 +164,8 @@ struct WideRoomCard: View, Hashable {
                             if index <= rowLimit {
                                 
                                 
-                                    Text(tasks[index])
+                                Text(tasks[index].preview)
+                                        .strikethrough(tasks[index].isComplete)
                                         .fontWeight(.light)
                                         .foregroundColor(bodyTextColor)
                                         
@@ -128,7 +182,7 @@ struct WideRoomCard: View, Hashable {
                 , alignment: .top)
             
             .overlay(
-                Text("0/12").fontWeight(.semibold)
+                Text(taskCount.asString).fontWeight(.semibold)
                     .padding(.horizontal)
                     .padding(.vertical, 5)
             
@@ -136,18 +190,18 @@ struct WideRoomCard: View, Hashable {
         
     }
 }
-
-struct WideRoomCard_Previews: PreviewProvider {
-    static var previews: some View {
-        Group {
-            WideRoomCard(status: .complete)
-        }.previewLayout(.sizeThatFits)
-        
-        Group {
-            WideRoomCard(status: .complete)
-        }.previewLayout(.sizeThatFits)
-        .preferredColorScheme(.dark)
-        
-        WideRoomCard(status: .overdue)
-    }
-}
+//
+//struct WideRoomCard_Previews: PreviewProvider {
+//    static var previews: some View {
+//        Group {
+//            WideRoomCard(status: .complete)
+//        }.previewLayout(.sizeThatFits)
+//
+//        Group {
+//            WideRoomCard(status: .complete)
+//        }.previewLayout(.sizeThatFits)
+//        .preferredColorScheme(.dark)
+//
+//        WideRoomCard(status: .overdue)
+//    }
+//}

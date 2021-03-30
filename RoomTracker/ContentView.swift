@@ -27,7 +27,9 @@ struct ContentView: View {
                 .padding()
         })
         .sheet(isPresented: $presentCreateNewFloorView, content: {
-            NewFloorView(floorName: "", roomCount: 0, bathroomCount: 0, stairwellCount: 0, isPresented: $presentCreateNewFloorView)
+            if let floors = floors {
+                NewFloorView(floorName: "", roomCount: 0, bathroomCount: 0, stairwellCount: 0, isPresented: $presentCreateNewFloorView, allFloors: $floors)
+            }
         })
     }
     
@@ -48,6 +50,8 @@ struct ContentView: View {
         }
     }
     
+    @ObservedObject var floorManager = FloorManager()
+    @State var floors: [Floor]? = []
     
     var body: some View {
         
@@ -59,7 +63,7 @@ struct ContentView: View {
                         Text("History")
                     }
                     .tag(1)
-                FloorList()
+                FloorList(floors: floors)
                     .tabItem {
                         Image(systemName: "rectangle.grid.2x2")
                         Text("Floors")
@@ -81,7 +85,19 @@ struct ContentView: View {
             .navigationBarItems(trailing: selectedView == 2 ? plusButton() : nil)
             
         }
-        
+        .onAppear {
+            floors = floorManager.extractAllFloors()
+        }
+        .onReceive(floorManager.$allFloors, perform: { newFloors in
+            withAnimation(.default) {
+                if floorManager.allFloors.count == 0 {
+                    floorManager.fetchAll()
+                }
+                self.floors = floorManager.allFloors
+                print("AllFloors.count = \(floorManager.allFloors.count)")
+                print("NewFloors.count = \(newFloors.count)")
+            }
+        })
         
         
     }

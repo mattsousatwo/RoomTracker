@@ -32,9 +32,9 @@ public init(red: Int, green: Int, blue: Int, opacity: Double = 1.0) {
     public static let overdueRed = Color(red: 219, green: 84, blue: 97)
     
     // DarkMode
-    public static let inactiveGrayDark = Color(red: 112, green: 112, blue: 112)
-    public static let completeBlueDark = Color(red: 30, green: 65, blue: 92)
-    public static let overdueRedDark = Color(red: 86, green: 16, blue: 27)
+    public static let inactiveDarkGray = Color(red: 112, green: 112, blue: 112)
+    public static let completeDarkBlue = Color(red: 30, green: 65, blue: 92)
+    public static let overdueDarkRed = Color(red: 86, green: 16, blue: 27)
     
     
     

@@ -14,10 +14,11 @@ struct NewFloorView: View {
     @State var roomCount: Float
     @State var bathroomCount: Float
     @State var stairwellCount: Float
-    
+    @State private var enableSave: SaveState = .inactive
     @Binding var isPresented: Bool
+    @Binding var allFloors: [Floor]?
     
-    
+    /// Cancel button to dismiss view
     private func cancelButton() -> some View {
         return Button(action: {
             self.isPresented = false
@@ -26,11 +27,30 @@ struct NewFloorView: View {
         })
     }
     
+    /// Set text color based on enabledSave State - set to a lighter gray than intended - get default color
+    private var floorNameTextColor: Color? {
+        switch enableSave {
+        case .enabled:
+            return .gray
+        default:
+            return enableSave.color
+        }
+    }
+    
     var body: some View {
         NavigationView {
+            
             Form {
-                Section(header: Text("Floor Name")) {
+                Section(header: Text("Floor Name").foregroundColor(floorNameTextColor)) {
                     TextField("Name:", text: $floorName)
+                        .onChange(of: floorName, perform: { value in
+                            if floorName != "" {
+                                enableSave = .enabled
+                            } else {
+                                enableSave = .inactive
+                            }
+                            
+                        })
                 }
                 
                 Section(header: Text("Room Count")) {
@@ -64,42 +84,70 @@ struct NewFloorView: View {
                         var floorID = ""
                         
                         if floorName != "" &&
-                            roomCount != 0 {
-                            if let newFloorID = floorManager.createNewFloor(floorName) {
-                                floorID = newFloorID
+                            roomCount != 0 ||
+                            bathroomCount != 0 ||
+                            stairwellCount != 0 {
+                            if let newFloor = floorManager.createNewFloor(floorName) {
+                                if let uuid = newFloor.uuid {
+                                    floorID = uuid
+                                }
+                                if var allFloors = allFloors {
+                                    allFloors.append(newFloor)
+                                }
                             }
+                            
+                            
                         }
                         if floorID != "" {
                             if roomCount != 0 {
+                                print("Create ClassRoom")
                                 for index in 0..<Int(roomCount) {
-                                    roomManager.createNew(room: "\(index)", floorID: floorID)
+                                    roomManager.createNew(room: "\(index)", floorID: floorID, tasks: DefaultRoomTypes.classroom.tasks)
                                 }
                             }
                             
                             if bathroomCount != 0 {
+                                print("Create Bathroom")
                                 for index in 0..<Int(bathroomCount) {
-                                    roomManager.createNew(room: "Bathroom \(index)", floorID: floorID)
+                                    roomManager.createNew(room: "Bathroom \(index)", floorID: floorID, tasks: DefaultRoomTypes.bathroom.tasks)
                                 }
                             }
                             
                             if stairwellCount != 0 {
+                                print("Create Stairwell")
                                 for index in 0..<Int(stairwellCount) {
-                                    roomManager.createNew(room: "Stairwell \(index)", floorID: floorID)
+                                    roomManager.createNew(room: "Stairwell \(index)", floorID: floorID, tasks: DefaultRoomTypes.staircase.tasks)
                                 }
                             }
                         }
                         print("Save")
-                        self.isPresented = false
                         
+                        if floorName == "" {
+                            
+                            self.enableSave = .failure
+                            
+                        } else {
+                            
+                            self.enableSave = .enabled
+                            
+                            self.isPresented = false
+                        }
                     }, label: {
-                        RoundedRectangle(cornerRadius: 12)
-                            .frame(width: UIScreen.main.bounds.width * 0.8,
-                                   height: 50)
-                            .foregroundColor(.blue)
-                            .overlay(
-                                Text("Save")
-                                    .foregroundColor(.pGray)
-                                , alignment: .center)
+
+                        HStack {
+                            Spacer()
+                            RoundedRectangle(cornerRadius: 12)
+                                .frame(width: 300,
+                                       height: 50)
+                                .foregroundColor(enableSave.color)
+                                .animation(.default)
+                                .overlay(
+                                    Text("Save")
+                                        .bold()
+                                        .foregroundColor(.pGray)
+                                    , alignment: .center)
+                            Spacer()
+                        }
                     })
                     
                     
@@ -116,17 +164,36 @@ struct NewFloorView: View {
         
     }
 }
+//
+//struct NewFloorView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        Group {
+////            NewFloorView(floorName: "", roomCount: 12, bathroomCount: 2, stairwellCount: 2, isPresented: .constant(true), allFloors: .constant(Floor()))
+//
+//            NewFloorView(floorName: "2nd floor", roomCount: 18, bathroomCount: 3, stairwellCount: 1, isPresented: .constant(true)).preferredColorScheme(.dark)
+//        }
+//
+//
+//
+//
+//    }
+//}
+//
+//
 
-struct NewFloorView_Previews: PreviewProvider {
-    static var previews: some View {
-        Group {
-            NewFloorView(floorName: "", roomCount: 12, bathroomCount: 2, stairwellCount: 2, isPresented: .constant(true))
-            
-            NewFloorView(floorName: "2nd floor", roomCount: 18, bathroomCount: 3, stairwellCount: 1, isPresented: .constant(true)).preferredColorScheme(.dark)
+enum SaveState {
+    case inactive
+    case enabled
+    case failure
+    
+    var color: Color {
+        switch self {
+        case .inactive:
+            return .inactiveGray
+        case .enabled:
+            return .blue
+        case .failure:
+            return .red
         }
-        
-        
-        
-        
     }
 }
