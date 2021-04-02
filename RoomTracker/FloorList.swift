@@ -17,8 +17,7 @@ struct FloorList: View {
 
     // Floors used in view 
     @State var floors: [Floor]? = []
-    
-    @State var savedFloors: [Floor]?
+
     @ObservedObject var floorManager = FloorManager()
     
     var body: some View {
