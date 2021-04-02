@@ -11,8 +11,10 @@ import CoreData
 class RoomManager: CoreDataPersistantManager, ObservableObject {
     
     @Published var allRooms = [Room]()
-    @Published var roomsForFloor = [Room]()
+    @Published var currentRoomsForFloor = [Room]()
+    @Published var previousRoomsForFloor = [Room]()
     @Published var selectedRoom : Room?
+    
     
     
     override init() {
@@ -28,7 +30,7 @@ class RoomManager: CoreDataPersistantManager, ObservableObject {
 extension RoomManager {
     
     /// Create new Room Element
-    func createNew(room name: String, floorID: String, type: DefaultRoomTypes? = nil, tasks: [Task]? = nil) {
+    func createNew(room name: String, floorID: String, type: DefaultRoomTypes? = nil, tasks: [Task]? = nil, date: Date? = nil) {
         guard let context = context else { return }
         let newRoom = Room(context: context)
         
@@ -47,12 +49,15 @@ extension RoomManager {
         }
         newRoom.isComplete = CompleteRoomKey.incomplete.rawValue
         
-        let date = Date()
-        let formatter = DateFormatter()
-        let formattedDate = formatter.convertToStandardDateAsString(date)
-        newRoom.date = formattedDate
-        
-        allRooms.append(newRoom)
+        if let date = date {
+            newRoom.date = date.asFormattedString()
+        } else {
+            let date = Date()
+            let formatter = DateFormatter()
+            let formattedDate = formatter.convertToStandardDateAsString(date)
+            newRoom.date = formattedDate
+        }
+        currentRoomsForFloor.append(newRoom)
         saveSelectedContext()
     }
 
@@ -103,10 +108,106 @@ extension RoomManager {
     
     
     /// Fetch all rooms for floor from today
-    func fetchCurrentRoomsFor(floor: String) {
+    func fetchCurrentRoomsFor(floor: Floor, date: String = Date().asFormattedString()) {
+        guard let context = context else { return }
+        let request: NSFetchRequest<Room> = Room.fetchRequest()
+        guard let floorID = floor.uuid else { return }
         
+        let floorIDPredicate = NSPredicate(format: "floorID == %@", floorID)
+        let currentDatePredicate = NSPredicate(format: "date == %@", date)
+        
+        request.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [floorIDPredicate, currentDatePredicate])
+        
+        do {
+            currentRoomsForFloor = try context.fetch(request)
+        } catch {
+            print(error)
+        }
     }
     
+    /// Pull Rooms from Selected Floor
+    func extractRooms(for floor: Floor) -> [Room]? {
+        if currentRoomsForFloor.count == 0 {
+            fetchCurrentRoomsFor(floor: floor)
+        }
+        if currentRoomsForFloor.count == 0 {
+            recreateRooms(for: floor)
+            if currentRoomsForFloor.count == 0 {
+                return nil
+            } else {
+                return currentRoomsForFloor
+            }
+        } else {
+            return currentRoomsForFloor
+        }
+    }
+    
+    
+    /// Filter through rooms for last used rooms for floor
+    func fetchPreviousRooms(for floor: Floor, date: String = Date().asFormattedString()) {
+        guard let context = context else { return }
+        let request: NSFetchRequest<Room> = Room.fetchRequest()
+        guard let floorID = floor.uuid else { return }
+        
+        let floorIDPredicate = NSPredicate(format: "floorID == %@", floorID)
+        let currentDatePredicate = NSPredicate(format: "date <= %@", date)
+        
+        
+        request.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [floorIDPredicate, currentDatePredicate])
+        
+        do {
+            previousRoomsForFloor = try context.fetch(request)
+        } catch {
+            print(error)
+        }
+    }
+    
+    /// Create rooms for floor with todays date using previously saved rooms for floor
+    func recreateRooms(for floor: Floor) {
+        fetchPreviousRooms(for: floor)
+        if previousRoomsForFloor.count != 0 {
+            var roomSet: [Room] = []
+            if let firstRoom = previousRoomsForFloor.first {
+                if let firstDate = firstRoom.date {
+                    for room in previousRoomsForFloor {
+                        if room.date == firstDate {
+                            roomSet.append(room)
+                        }
+                    }
+                }
+            }
+            
+            if roomSet.count != 0 {
+                for room in roomSet {
+                    var roomName = "No Name"
+                    var floorUUID = genID()
+                    let tasks = room.convertTasks()
+                    var newTasks: [Task] {
+                        var taskList: [Task] = []
+                        for task in tasks {
+                            taskList.append(Task(title: task.title, preview: task.preview, isComplete: false))
+                        }
+                        return taskList
+                    }
+                    
+                    
+                    if let name = room.name {
+                        roomName = name
+                    }
+                    if let floorID = floor.uuid {
+                        floorUUID = floorID
+                    }
+                    createNew(room: roomName, floorID: floorUUID, tasks: tasks, date: Date())
+                }
+            }
+            
+        }
+        
+        
+        
+        
+        
+    }
     
     
 }

@@ -112,6 +112,7 @@ class FloorManagerTests: XCTestCase {
     
     
     let floorManager = FloorManager()
+    let roomManager = RoomManager()
     
     let floorName = "FloorNameForTesting"
     let floorID = "FloorIDForTesting"
@@ -148,6 +149,58 @@ class FloorManagerTests: XCTestCase {
         
     }
     
+    /// Recreate Rooms for floor and test if the same rooms are recreated for a new day
+    func testRecreatingRoomsForFloor() {
+        
+        let floor = floorManager.createNewFloor(floorName, id: floorID)!
+        roomManager.createNew(room: "TestRoom", floorID: floor.uuid!, type: .classroom)
+        
+        var createdRooms: [Room] = []
+        
+        roomManager.fetchAllRooms()
+        
+        for room in roomManager.allRooms {
+            if room.floorID == floor.uuid! {
+                createdRooms.append(room)
+            }
+        }
+        
+        
+        let rooms = roomManager.extractRooms(for: floor)!
+        
+        print("\nControlRooms - \(createdRooms)\n")
+        print("reCreatedRooms - \(rooms)\n")
+        
+        XCTAssert(createdRooms == rooms)
+        
+    }
+    
 
+    
+}
+
+
+
+class DateTests: XCTestCase {
+    
+    /// create past date & compare to current date
+    func testIfWeCanCompareDatesUsingString() {
+        let date = Date()
+        
+        let today = date.asFormattedString()
+        
+        let yesterday = date.createDate(month: 3, day: 31, year: 1900)!
+        
+        var comparison: Bool {
+            return today.compare(to: yesterday)!
+        }
+        
+        XCTAssertTrue(comparison)
+        
+        
+        
+        
+    }
+    
     
 }

@@ -11,6 +11,8 @@ import CoreData
 class FloorManager: CoreDataPersistantManager, ObservableObject {
     
     @Published var allFloors = [Floor]()
+    lazy var defaultNewFloorName = "New Floor"
+    lazy var defaultNewFloorID = "DEFAULTNEWFLOORID"
     
     override init() {
         super.init()
@@ -34,6 +36,16 @@ class FloorManager: CoreDataPersistantManager, ObservableObject {
         saveSelectedContext()
         
         return newFloor
+    }
+    
+    /// Create a new floor with ID: DEFAULTNEWFLOORID, name: New Floor
+    func createDefaultNewFloor() {
+        guard let context = context else { return }
+        let newFloor = Floor(context: context)
+        newFloor.name = defaultNewFloorName
+        newFloor.uuid = defaultNewFloorID
+        allFloors.append(newFloor)
+        saveSelectedContext()
     }
     
     /// Fetch All Floors

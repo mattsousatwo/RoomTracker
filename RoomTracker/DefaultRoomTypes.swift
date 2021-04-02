@@ -32,7 +32,7 @@ enum DefaultRoomTypes: Int, CaseIterable {
                                                       Task(title: "Mop Floor", preview: "Mop"),
                                                       Task(title: "Take out trash", preview: "Trash")])
         case .classroom:
-            return RoomType(name: "Classroom", tasks: [Task(title: "Sweep floor", preview: "Sweep", isComplete: true),
+            return RoomType(name: "Classroom", tasks: [Task(title: "Sweep floor", preview: "Sweep"),
                                                        Task(title: "Mop floor", preview: "Mop"),
                                                        Task(title: "Take out tash", preview: "Trash"),
                                                        Task(title: "Clean Windows", preview: "Windows"),

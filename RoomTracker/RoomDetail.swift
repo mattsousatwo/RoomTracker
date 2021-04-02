@@ -51,7 +51,7 @@ struct RoomDetail: View {
                     
                     Text(task.title)
                         .strikethrough(task.isComplete)
-                        .foregroundColor(task.isComplete ? .pGray3 : .black)
+                        .foregroundColor(task.isComplete ? .pGray3 : nil)
                         .opacity(task.isComplete ? 0.7 : 1.0)
                     
                 }

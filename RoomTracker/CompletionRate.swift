@@ -1,5 +1,5 @@
 //
-//  TaskCount.swift
+//  CompletionRate.swift
 //  RoomTracker
 //
 //  Created by Matthew Sousa on 3/30/21.
@@ -8,7 +8,7 @@
 import Foundation
 
 
-class TaskCount {
+class CompletionRate {
     
     var totalCount: Int
     var completeCount: Int
@@ -28,7 +28,7 @@ class TaskCount {
         }
     }
     
-    /// Return TaskCount as String
+    /// Return CompletionRate as String
     var asString: String {
         return "\(completeCount)/\(totalCount)"
     }

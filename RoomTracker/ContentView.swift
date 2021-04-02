@@ -9,6 +9,8 @@ import SwiftUI
 
 struct ContentView: View {
     
+    @StateObject var floorManager = FloorManager()
+    
     // Present CreateNewFloorView 
     @State private var presentCreateNewFloorView = false
     
@@ -27,9 +29,12 @@ struct ContentView: View {
                 .padding()
         })
         .sheet(isPresented: $presentCreateNewFloorView, content: {
-            if let floors = floors {
-                NewFloorView(floorName: "", roomCount: 0, bathroomCount: 0, stairwellCount: 0, isPresented: $presentCreateNewFloorView, allFloors: $floors)
-            }
+            NewFloorView(floorManager: floorManager,
+                         floorName: "",
+                         roomCount: 0,
+                         bathroomCount: 0,
+                         stairwellCount: 0,
+                         isPresented: $presentCreateNewFloorView)
         })
     }
     
@@ -50,7 +55,6 @@ struct ContentView: View {
         }
     }
     
-    @ObservedObject var floorManager = FloorManager()
     @State var floors: [Floor]? = []
     
     var body: some View {
@@ -85,29 +89,31 @@ struct ContentView: View {
             .navigationBarItems(trailing: selectedView == 2 ? plusButton() : nil)
             
         }
-        .onAppear {
-            floors = floorManager.extractAllFloors()
-        }
-        .onReceive(floorManager.$allFloors, perform: { newFloors in
-            withAnimation(.default) {
-                if floorManager.allFloors.count == 0 {
-                    floorManager.fetchAll()
-                }
-                self.floors = floorManager.allFloors
-                print("AllFloors.count = \(floorManager.allFloors.count)")
-                print("NewFloors.count = \(newFloors.count)")
-            }
-        })
+        .environmentObject(floorManager)
+        
+//        .onAppear {
+//            floors = floorManager.extractAllFloors()
+//        }
+//        .onReceive(floorManager.$allFloors, perform: { newFloors in
+//            withAnimation(.default) {
+//                if floorManager.allFloors.count == 0 {
+//                    floorManager.fetchAll()
+//                }
+//                self.floors = floorManager.allFloors
+//                print("AllFloors.count = \(floorManager.allFloors.count)")
+//                print("NewFloors.count = \(newFloors.count)")
+//            }
+//        })
         
         
     }
 }
 
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        Group {
-            ContentView()
-            ContentView().preferredColorScheme(.dark)
-        }
-    }
-}
+//struct ContentView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        Group {
+//            ContentView(floors: nil)
+//            ContentView(floors: nil).preferredColorScheme(.dark)
+//        }
+//    }
+//}

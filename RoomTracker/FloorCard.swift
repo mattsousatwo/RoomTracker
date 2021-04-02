@@ -28,23 +28,54 @@ struct FloorCard: View, Hashable {
     // State of completion per floor
     @State var status: CardColor
     
+    
+    
+    /// Selected Floor
+    let floor: Floor
+    
+    /// Name of floor
+    private var title: String {
+        var titleString = ""
+        if let name = floor.name {
+            titleString = name
+        }
+        return titleString
+    }
+    
+    /// Completion rate of rooms
+    private var completionRate: CompletionRate {
+        
+        
+        // MARK: Get all Rooms for Floor -
+        
+        
+        let rate = CompletionRate(complete: 0, total: 0)
+        return rate
+    }
+    
+    
+    
     // Set background color depending on status of completion
     private var background: Color {
 
-        switch status {
-        case .inactive:
-            return  colorScheme == .dark ? Color.inactiveDarkGray : Color.inactiveGray
-        case .complete:
+        switch completionRate.isComplete {
+        case true:
             return colorScheme == .dark ? Color.completeDarkBlue : Color.completeBlue
-        case .overdue:
-            return colorScheme == .dark ? Color.overdueDarkRed : Color.overdueRed
+        case false:
+            return  colorScheme == .dark ? Color.inactiveDarkGray : Color.inactiveGray
         }
+        
+        
+//        case .overdue:
+//            return colorScheme == .dark ? Color.overdueDarkRed : Color.overdueRed
+        
     }
     
     // Init
-    init(status: CardColor) {
+    init(status: CardColor, floor: Floor) {
         let state = State(initialValue: status)
         _status = state
+        self.floor = floor
         let coder = CoreDataCoder()
         id = coder.genID()
     }
@@ -58,12 +89,12 @@ struct FloorCard: View, Hashable {
             .overlay(
                 
                     VStack {
-                        Text("Floor Name")
+                        Text(title)
                             .bold()
                         Spacer()
                         HStack {
                             Spacer()
-                            Text("0/12")
+                            Text(completionRate.asString)
                                 .font(.subheadline)
                         }
                     }
@@ -73,20 +104,20 @@ struct FloorCard: View, Hashable {
     }
 }
 
-struct FloorCard_Previews: PreviewProvider {
-    static var previews: some View {
-        Group {
-            FloorCard(status: .inactive)
-            FloorCard(status: .complete)
-            FloorCard(status: .overdue)
-        }.previewLayout(.sizeThatFits)
-        
-        Group {
-            FloorCard(status: .inactive)
-            FloorCard(status: .complete)
-            FloorCard(status: .overdue)
-        }.previewLayout(.sizeThatFits)
-        .preferredColorScheme(.dark)
-        
-    }
-}
+//struct FloorCard_Previews: PreviewProvider {
+//    static var previews: some View {
+//        Group {
+//            FloorCard(status: .inactive)
+//            FloorCard(status: .complete)
+//            FloorCard(status: .overdue)
+//        }.previewLayout(.sizeThatFits)
+//
+//        Group {
+//            FloorCard(status: .inactive)
+//            FloorCard(status: .complete)
+//            FloorCard(status: .overdue)
+//        }.previewLayout(.sizeThatFits)
+//        .preferredColorScheme(.dark)
+//
+//    }
+//}

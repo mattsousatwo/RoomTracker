@@ -38,6 +38,15 @@ struct RoomList: View {
         
     }
     
+    var floorName: String {
+        var name = ""
+        if let floor = floor {
+            if let floorName = floor.name {
+                name = floorName
+            }
+        }
+        return name
+    }
     
     
     
@@ -51,7 +60,7 @@ struct RoomList: View {
                     NavigationLink(
                         destination: RoomDetail(room: room) ) {
                         
-                        WideRoomCard(status: .inactive, room: room).equatable()
+                        WideRoomCard(room: room).equatable()
                             .padding()
                             
                         }.buttonStyle(PlainButtonStyle())
@@ -67,9 +76,13 @@ struct RoomList: View {
             }
         }
         .onAppear {
-            savedRooms = roomManager.extractAllRooms()
+            if let floor = floor {
+//                savedRooms = roomManager.extractRoomsForFloor(floor: floor)
+                savedRooms = roomManager.extractRooms(for: floor)
+            }
         }
-        .navigationTitle(Text("Floor Name"))
+ 
+        .navigationTitle(Text(floorName))
         .navigationBarItems(trailing: addButton())
         
     }

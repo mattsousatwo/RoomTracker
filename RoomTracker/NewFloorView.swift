@@ -10,13 +10,14 @@ import SwiftUI
 struct NewFloorView: View {
     
     
+    @StateObject var floorManager = FloorManager()
+    
     @State var floorName: String
     @State var roomCount: Float
     @State var bathroomCount: Float
     @State var stairwellCount: Float
     @State private var enableSave: SaveState = .inactive
     @Binding var isPresented: Bool
-    @Binding var allFloors: [Floor]?
     
     /// Cancel button to dismiss view
     private func cancelButton() -> some View {
@@ -27,7 +28,7 @@ struct NewFloorView: View {
         })
     }
     
-    /// Set text color based on enabledSave State - set to a lighter gray than intended - get default color
+    /// Set text color based on enabledSave State
     private var floorNameTextColor: Color? {
         switch enableSave {
         case .enabled:
@@ -53,7 +54,7 @@ struct NewFloorView: View {
                         })
                 }
                 
-                Section(header: Text("Room Count")) {
+                Section(header: Text("Classroom Count")) {
                     
                     Text("\(roomCount, specifier: "%.0f")").bold()
                     
@@ -78,10 +79,9 @@ struct NewFloorView: View {
                 Section {
                     
                     Button(action: {
-                        
-                        let floorManager = FloorManager()
                         let roomManager = RoomManager()
                         var floorID = ""
+                        
                         
                         if floorName != "" &&
                             roomCount != 0 ||
@@ -91,12 +91,12 @@ struct NewFloorView: View {
                                 if let uuid = newFloor.uuid {
                                     floorID = uuid
                                 }
-                                if var allFloors = allFloors {
-                                    allFloors.append(newFloor)
+                                if floorManager.allFloors.contains(where: { $0.uuid == floorManager.defaultNewFloorID }) == true {
+                                    floorManager.allFloors.removeAll(where: { $0.uuid == floorManager.defaultNewFloorID })
+                                    floorManager.deleteSpecificElement(.floor, id: floorManager.defaultNewFloorID)
                                 }
                             }
-                            
-                            
+
                         }
                         if floorID != "" {
                             if roomCount != 0 {
@@ -121,7 +121,6 @@ struct NewFloorView: View {
                             }
                         }
                         print("Save")
-                        
                         if floorName == "" {
                             
                             self.enableSave = .failure
@@ -129,8 +128,9 @@ struct NewFloorView: View {
                         } else {
                             
                             self.enableSave = .enabled
-                            
                             self.isPresented = false
+                            
+                            
                         }
                     }, label: {
 

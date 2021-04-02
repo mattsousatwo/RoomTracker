@@ -24,14 +24,9 @@ struct WideRoomCard: View, Hashable {
     
     // Used to detect DarkMode || LightMode
     @Environment(\.colorScheme) var colorScheme
-    
-    // State of the room Completion by color
-    @State var status: CardColor
-    
+
     // Init
-    init(status: CardColor, room: Room) {
-        let state = State(initialValue: status)
-        _status = state
+    init(room: Room) {
         let coder = CoreDataCoder()
         id = coder.genID()
         self.room = room
@@ -39,29 +34,21 @@ struct WideRoomCard: View, Hashable {
 
     // Set color based on status of completion
     private var background: Color {
-        
-        switch taskCount.isComplete {
-        case true:
-            
-            // Check if date is equal to today {
-            //   if not return overdue   -  colorScheme == .dark ? Color.overdueDarkRed : Color.overdueRed
-            // }
-            print("room: \(room.name), isComplete \(taskCount.completeCount):\(taskCount.totalCount)")
-            return colorScheme == .dark ? Color.completeDarkBlue : Color.completeBlue
-            
-        case false:
-            print("room: \(room.name), is Inactive")
-            return  colorScheme == .dark ? Color.inactiveDarkGray : Color.inactiveGray
+        if let savedDate = room.date {
+            let todaysDate = Date().asFormattedString()
+            if savedDate != todaysDate &&
+                taskCount.isComplete == false {
+                return colorScheme == .dark ? Color.overdueDarkRed : Color.overdueRed
+            } else {
+                switch taskCount.isComplete {
+                case true:
+                    return colorScheme == .dark ? Color.completeDarkBlue : Color.completeBlue
+                case false:
+                    return  colorScheme == .dark ? Color.inactiveDarkGray : Color.inactiveGray
+                }
+            }
         }
-        
-//        switch status {
-//        case .inactive:
-//            return  colorScheme == .dark ? Color.inactiveDarkGray : Color.inactiveGray
-//        case .complete:
-//            return colorScheme == .dark ? Color.completeDarkBlue : Color.completeBlue
-//        case .overdue:
-//            return colorScheme == .dark ? Color.overdueDarkRed : Color.overdueRed
-//        }
+        return  colorScheme == .dark ? Color.inactiveDarkGray : Color.inactiveGray
     }
     
     // Set color of text based on colorScheme
@@ -104,6 +91,8 @@ struct WideRoomCard: View, Hashable {
         }
     }
     
+    
+    /// Selected Room
     let room: Room
     
     /// List of tasks from saved Room
@@ -130,16 +119,14 @@ struct WideRoomCard: View, Hashable {
     }
     
     /// Task count
-    private var taskCount: TaskCount {
+    private var taskCount: CompletionRate {
         var completeCount = 0
         for task in tasks {
             if task.isComplete == true {
                 completeCount += 1
             }
         }
-        
-        let taskCount = TaskCount(complete: completeCount, total: tasks.count)
-        
+        let taskCount = CompletionRate(complete: completeCount, total: tasks.count)
         return taskCount
     }
     
