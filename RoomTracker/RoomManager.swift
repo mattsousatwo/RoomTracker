@@ -15,6 +15,8 @@ class RoomManager: CoreDataPersistantManager, ObservableObject {
     @Published var previousRoomsForFloor = [Room]()
     @Published var selectedRoom : Room?
     
+    lazy var defaultRoomName = "DEFAULTROOMNAME"
+    lazy var defaultRoomID = "DEFAULTROOMID"
     
     
     override init() {
@@ -30,7 +32,7 @@ class RoomManager: CoreDataPersistantManager, ObservableObject {
 extension RoomManager {
     
     /// Create new Room Element
-    func createNew(room name: String, floorID: String, type: DefaultRoomTypes? = nil, tasks: [Task]? = nil, date: Date? = nil) {
+    func appendNew(room name: String, floorID: String, type: DefaultRoomTypes? = nil, tasks: [Task]? = nil, date: Date? = nil) {
         guard let context = context else { return }
         let newRoom = Room(context: context)
         
@@ -61,6 +63,50 @@ extension RoomManager {
         saveSelectedContext()
     }
 
+    /// Create new Room Element
+    func createNew(room name: String, floorID: String, type: DefaultRoomTypes? = nil, tasks: [Task]? = nil, date: Date? = nil) -> Room? {
+        guard let context = context else { return nil }
+        let newRoom = Room(context: context)
+        
+        newRoom.name = name
+        newRoom.uuid = genID()
+        newRoom.floorID = floorID
+        
+        if let type = type {
+            if let tasksString = encodeTasks(type.tasks) {
+                newRoom.tasks = tasksString
+            }
+        } else if let tasks = tasks {
+            if let tasksString = encodeTasks(tasks) {
+                newRoom.tasks = tasksString
+            }
+        }
+        newRoom.isComplete = CompleteRoomKey.incomplete.rawValue
+        
+        if let date = date {
+            newRoom.date = date.asFormattedString()
+        } else {
+            let date = Date()
+            let formatter = DateFormatter()
+            let formattedDate = formatter.convertToStandardDateAsString(date)
+            newRoom.date = formattedDate
+        }
+        allRooms.append(newRoom)
+        saveSelectedContext()
+        return newRoom
+    }
+    
+    /// Create a new floor with ID: DEFAULTNEWFLOORID, name: New Floor
+    func createDefaultNewRoom(for floor: Floor) {
+        guard let context = context else { return }
+        let newRoom = Room(context: context)
+        newRoom.name = defaultRoomName
+        newRoom.uuid = defaultRoomID
+        newRoom.floorID = floor.uuid
+        allRooms.append(newRoom)
+        currentRoomsForFloor.append(newRoom)
+        saveSelectedContext()
+    }
 }
 
 
@@ -197,16 +243,46 @@ extension RoomManager {
                     if let floorID = floor.uuid {
                         floorUUID = floorID
                     }
-                    createNew(room: roomName, floorID: floorUUID, tasks: tasks, date: Date())
+                    appendNew(room: roomName, floorID: floorUUID, tasks: tasks, date: Date())
                 }
             }
             
         }
+    }
+    
+    
+    /// return completion rate of rooms for floor
+    func getRoomCompletionRate(for floor: Floor) -> CompletionRate {
+        var total = 0
+        var complete = 0
+        var roomSet: [Room] = []
         
         
+        fetchPreviousRooms(for: floor)
+        
+        if previousRoomsForFloor.count != 0 {
+            if let firstRoom = previousRoomsForFloor.first {
+                if let firstDate = firstRoom.date {
+                    for room in previousRoomsForFloor {
+                        if room.date == firstDate {
+                            roomSet.append(room)
+                        }
+                    }
+                }
+            }
+        }
+        
+        if roomSet.count != 0 {
+            for room in roomSet {
+                if room.isComplete == 1 {
+                    complete += 1
+                }
+            }
+            total = roomSet.count
+        }
         
         
-        
+        return CompletionRate(complete: complete, total: total)
     }
     
     

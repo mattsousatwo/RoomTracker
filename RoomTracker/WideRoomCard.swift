@@ -9,6 +9,8 @@ import SwiftUI
 
 struct WideRoomCard: View, Hashable {
     
+    let roomManager = RoomManager()
+    
     // Equatable
     static func == (lhs: WideRoomCard, rhs: WideRoomCard) -> Bool {
         return lhs.id == rhs.id
@@ -34,6 +36,13 @@ struct WideRoomCard: View, Hashable {
 
     // Set color based on status of completion
     private var background: Color {
+        // case default
+        if let roomID = room.uuid {
+            if roomID == roomManager.defaultRoomID {
+                return colorScheme == .dark ? Color.inactiveDarkGray : Color.inactiveGray
+            }
+        }
+        // else
         if let savedDate = room.date {
             let todaysDate = Date().asFormattedString()
             if savedDate != todaysDate &&
@@ -115,6 +124,11 @@ struct WideRoomCard: View, Hashable {
         if let name = room.name {
             titleString = name
         }
+        if let uuid = room.uuid {
+            if uuid == roomManager.defaultRoomID {
+                titleString = "Create New Room"
+            }
+        }
         return titleString
     }
     
@@ -127,6 +141,9 @@ struct WideRoomCard: View, Hashable {
             }
         }
         let taskCount = CompletionRate(complete: completeCount, total: tasks.count)
+        if taskCount.isComplete == true {
+            room.update(isComplete: .complete)
+        }
         return taskCount
     }
     

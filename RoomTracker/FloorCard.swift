@@ -28,8 +28,6 @@ struct FloorCard: View, Hashable {
     // State of completion per floor
     @State var status: CardColor
     
-    
-    
     /// Selected Floor
     let floor: Floor
     
@@ -42,14 +40,13 @@ struct FloorCard: View, Hashable {
         return titleString
     }
     
+    
+//    @State private var roomsForFloor = [Room]()
+    
     /// Completion rate of rooms
     private var completionRate: CompletionRate {
-        
-        
-        // MARK: Get all Rooms for Floor -
-        
-        
-        let rate = CompletionRate(complete: 0, total: 0)
+        let roomManager = RoomManager()
+        let rate = roomManager.getRoomCompletionRate(for: floor)
         return rate
     }
     
@@ -57,7 +54,6 @@ struct FloorCard: View, Hashable {
     
     // Set background color depending on status of completion
     private var background: Color {
-
         switch completionRate.isComplete {
         case true:
             return colorScheme == .dark ? Color.completeDarkBlue : Color.completeBlue

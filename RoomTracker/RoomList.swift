@@ -31,7 +31,7 @@ struct RoomList: View {
         }).sheet(isPresented: $presentCreateNewRoomView, content: {
             if let floor = floor {
                 if let floorID = floor.uuid {
-                    NewRoomView(floorID: floorID, roomName: "", isPresented: $presentCreateNewRoomView)
+                    NewRoomView(floorID: floorID, roomName: "", isPresented: $presentCreateNewRoomView, savedRooms: $savedRooms, roomManager: roomManager)
                 }
             }
         })
@@ -81,7 +81,38 @@ struct RoomList: View {
                 savedRooms = roomManager.extractRooms(for: floor)
             }
         }
- 
+        .environmentObject(roomManager)
+        
+        
+        
+        
+        .onReceive(roomManager.$currentRoomsForFloor, perform: { newRooms in
+            withAnimation(.default) {
+                if let floor = floor {
+                    savedRooms = roomManager.extractRooms(for: floor)
+//                    roomManager.fetchCurrentRoomsFor(floor: floor)
+                }
+                if roomManager.currentRoomsForFloor.count == 0 {
+                    if let floor = floor {
+                        roomManager.createDefaultNewRoom(for: floor)
+                    }
+                }
+                
+//                savedRooms = roomManager.currentRoomsForFloor
+            }
+            
+        })
+        
+
+        .onChange(of: roomManager.currentRoomsForFloor, perform: { newRoom in
+            if var savedRooms = savedRooms {
+                savedRooms = savedRooms + newRoom
+                print("Change of currentRooms : [\(newRoom)]")
+            }
+
+        })
+        
+        
         .navigationTitle(Text(floorName))
         .navigationBarItems(trailing: addButton())
         

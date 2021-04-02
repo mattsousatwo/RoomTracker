@@ -58,6 +58,12 @@ struct FloorList: View {
                     }
                     
                 }.padding()
+                Spacer() 
+
+                Divider()
+                WorkDetails()
+                    
+
             } else {
                 VStack {
                     Spacer()
@@ -92,7 +98,7 @@ struct FloorList: View {
         .onChange(of: floorManager.allFloors) { newFloors in
             self.floors = newFloors
         }
-
+        
     }
     
 }

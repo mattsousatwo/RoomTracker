@@ -70,7 +70,7 @@ class RoomManagerTests: XCTestCase {
     /// Create a test room
     func testIfCanCreateRoom() {
         
-        roomManager.createNew(room: roomID, floorID: floorID, tasks: DefaultRoomTypes.classroom.tasks)
+        roomManager.appendNew(room: roomID, floorID: floorID, tasks: DefaultRoomTypes.classroom.tasks)
         
         roomManager.fetchSpecificRoom(id: roomID)
         
@@ -153,7 +153,7 @@ class FloorManagerTests: XCTestCase {
     func testRecreatingRoomsForFloor() {
         
         let floor = floorManager.createNewFloor(floorName, id: floorID)!
-        roomManager.createNew(room: "TestRoom", floorID: floor.uuid!, type: .classroom)
+        roomManager.appendNew(room: "TestRoom", floorID: floor.uuid!, type: .classroom)
         
         var createdRooms: [Room] = []
         

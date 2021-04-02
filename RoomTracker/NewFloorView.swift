@@ -102,21 +102,21 @@ struct NewFloorView: View {
                             if roomCount != 0 {
                                 print("Create ClassRoom")
                                 for index in 0..<Int(roomCount) {
-                                    roomManager.createNew(room: "\(index)", floorID: floorID, tasks: DefaultRoomTypes.classroom.tasks)
+                                    roomManager.appendNew(room: "\(index)", floorID: floorID, tasks: DefaultRoomTypes.classroom.tasks)
                                 }
                             }
                             
                             if bathroomCount != 0 {
                                 print("Create Bathroom")
                                 for index in 0..<Int(bathroomCount) {
-                                    roomManager.createNew(room: "Bathroom \(index)", floorID: floorID, tasks: DefaultRoomTypes.bathroom.tasks)
+                                    roomManager.appendNew(room: "Bathroom \(index)", floorID: floorID, tasks: DefaultRoomTypes.bathroom.tasks)
                                 }
                             }
                             
                             if stairwellCount != 0 {
                                 print("Create Stairwell")
                                 for index in 0..<Int(stairwellCount) {
-                                    roomManager.createNew(room: "Stairwell \(index)", floorID: floorID, tasks: DefaultRoomTypes.staircase.tasks)
+                                    roomManager.appendNew(room: "Stairwell \(index)", floorID: floorID, tasks: DefaultRoomTypes.staircase.tasks)
                                 }
                             }
                         }

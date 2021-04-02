@@ -12,8 +12,9 @@ struct NewRoomView: View {
     var floorID: String
     @State var roomName: String
     @Binding var isPresented: Bool
+    @Binding var savedRooms: [Room]?
     
-    
+    @StateObject var roomManager = RoomManager()
     /// Button to cancel new room creation
     private func cancelButton() -> some View {
         return Button(action: {
@@ -107,12 +108,19 @@ struct NewRoomView: View {
             
             Section {
                 Button(action: {
-                    let roomManager = RoomManager()
                     
-                    roomManager.createNew(room: roomName,
+//                    let roomManager = RoomManager()
+//                    roomManager.appendNew(room: roomName,
+//                                          floorID: floorID,
+//                                          tasks: tasks)
+                    
+                    if let newRoom = roomManager.createNew(room: roomName,
                                           floorID: floorID,
-                                          tasks: tasks)
-                    
+                                          tasks: tasks) {
+                        roomManager.currentRoomsForFloor.append(newRoom)
+                    }
+
+                    isPresented.toggle()
                     print("Save")
                 }, label: {
                     HStack {
@@ -141,14 +149,16 @@ struct NewRoomView: View {
                             displayMode: .inline)
             .navigationBarItems(leading: cancelButton())
         
+            
+            
         }
         
     }
     
 }
-
-struct NewRoomView_Previews: PreviewProvider {
-    static var previews: some View {
-        NewRoomView(floorID: "", roomName: "", isPresented: .constant(true ))
-    }
-}
+//
+//struct NewRoomView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        NewRoomView(floorID: "", roomName: "", isPresented: .constant(true ), savedRooms: _nil)
+//    }
+//}

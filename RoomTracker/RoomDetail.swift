@@ -12,6 +12,7 @@ struct RoomDetail: View {
     var room: Room?
     
     @State var tasks: [Task] = []
+    @State private var notes: String = ""
     
     private func convertTasks() -> [Task] {
         var taskArray = [Task]()
@@ -58,6 +59,11 @@ struct RoomDetail: View {
 //                .onDelete(perform: delete)
                 
  
+            }
+            
+            Section(header: Text("Notes")) {
+                TextEditor(text: $notes)
+                    .frame(height: 200)
             }
             
             Section {

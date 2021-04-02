@@ -10,6 +10,7 @@ import SwiftUI
 struct ContentView: View {
     
     @StateObject var floorManager = FloorManager()
+//    @StateObject var roomManager = RoomManager() 
     
     // Present CreateNewFloorView 
     @State private var presentCreateNewFloorView = false
@@ -83,13 +84,12 @@ struct ContentView: View {
                 
             }
             
-            
-            
             .navigationBarTitle(barTitle, displayMode: .large)
             .navigationBarItems(trailing: selectedView == 2 ? plusButton() : nil)
             
         }
         .environmentObject(floorManager)
+//        .environmentObject(roomManager)
         
 //        .onAppear {
 //            floors = floorManager.extractAllFloors()
