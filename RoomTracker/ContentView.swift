@@ -13,18 +13,6 @@ struct ContentView: View {
 //    @StateObject var roomManager = RoomManager() 
     
     
-    @State var goToToday: Bool = false
-    
-    private func todayButton() -> some View {
-        return
-            Button(action: {
-                goToToday.toggle()
-            }, label: {
-                Text("Today")
-                    .padding()
-            })
-    }
-    
     // Present CreateNewFloorView 
     @State private var presentCreateNewFloorView = false
     
@@ -75,13 +63,14 @@ struct ContentView: View {
         
         NavigationView {
             TabView(selection: $selectedView) {
-                History(goToToday: $goToToday)
+                History()
                     .tabItem {
                         Image(systemName: "list.bullet")
                         Text("History")
                     }
                     .tag(1)
                 FloorList(floors: floors)
+                    
                     .tabItem {
                         Image(systemName: "rectangle.grid.2x2")
                         Text("Floors")
@@ -99,7 +88,7 @@ struct ContentView: View {
             
             .navigationBarTitle(barTitle, displayMode: .large)
             .navigationBarItems(trailing: selectedView == 2 ? plusButton() : nil)
-            .navigationBarItems(trailing: selectedView == 1 ? todayButton() : nil)
+            
             
         }
         .environmentObject(floorManager)

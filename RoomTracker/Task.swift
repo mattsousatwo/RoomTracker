@@ -52,7 +52,7 @@ struct Task: Hashable, Codable {
     init(title: String, preview: String, isComplete: Bool? = nil, uuid: String? = nil) {
         self.title = title
         self.preview = preview
-        if var isComplete = isComplete {
+        if let isComplete = isComplete {
             self.isComplete = isComplete
         } else {
             self.isComplete = false

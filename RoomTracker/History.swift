@@ -9,13 +9,12 @@ import SwiftUI
 
 struct History: View {
     
-    @Binding var goToToday: Bool
-    
     //
     @State private var date: String = Date().asFormattedString()
     
-    
+    /// Change date depending on date type
     func setToBeginingOfDateType() {
+        goToTodaysDate()
         var currentDate: Date? {
             let dateFormat = DateFormatter()
             return dateFormat.convertStringToDate(date)
@@ -35,7 +34,6 @@ struct History: View {
                 break
             }
         }
-
     }
     
     /// Set date to todays date
@@ -92,8 +90,7 @@ struct History: View {
         }
     }
     
-    
-    
+    /// Control for how the dates are to be changed and shown
     enum DateViewType: String, CaseIterable {
         case day = "Day", week = "Week", month = "Month"
     }
@@ -186,14 +183,9 @@ struct History: View {
         
         VStack {
             dateController()
-            HistoryFloorList(goToToday: $goToToday, date: date )
+            HistoryFloorList(date: date )
             Spacer()
         }
-
-        .onChange(of: goToToday) { (_) in
-            goToTodaysDate()
-        }
-        
         
      
     }
@@ -202,7 +194,7 @@ struct History: View {
 
 struct History_Previews: PreviewProvider {
     static var previews: some View {
-        History(goToToday: .constant(false)).previewLayout(.sizeThatFits)
+        History().previewLayout(.sizeThatFits)
         
     }
 }

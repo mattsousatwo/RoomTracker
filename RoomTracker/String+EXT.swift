@@ -21,9 +21,6 @@ extension String {
         } else {
             return true
         }
-        
-        
-        return nil
     }
     
     

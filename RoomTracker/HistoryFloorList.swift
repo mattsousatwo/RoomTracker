@@ -16,8 +16,7 @@ struct HistoryFloorList: View {
     @State var selectedRooms: [Room]?
     @ObservedObject var floorManager = FloorManager()
     @ObservedObject var roomManager = RoomManager()
-    
-    @Binding var goToToday: Bool
+
     
     var date: String
     
@@ -86,6 +85,6 @@ struct HistoryFloorList: View {
 
 struct HistoryFloorList_Previews: PreviewProvider {
     static var previews: some View {
-        HistoryFloorList(goToToday: .constant(false), date: "")
+        HistoryFloorList(date: "")
     }
 }
