@@ -15,5 +15,13 @@ extension DateFormatter {
         let formatedDate = self.string(from: date)
         return formatedDate
     }
+    
+    
+    func convertStringToDate(_ string: String) -> Date? {
+        self.dateFormat = "MMM d, yyyy"
+        guard let formattedDate = self.date(from: string) else { return nil }
+        return formattedDate
+    }
+    
 
 }

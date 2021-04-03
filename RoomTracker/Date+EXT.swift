@@ -29,6 +29,44 @@ extension Date {
         return formattedDate
     }
     
+    /// add one day to date
+    func addOneDay() -> Date? {
+        return Calendar.current.date(byAdding: .day, value: 1, to: self)
+    }
     
+    /// subtract one day to date
+    func subtractOneDay() -> Date? {
+        return Calendar.current.date(byAdding: .day, value: -1, to: self)
+    }
+    
+    /// add one week to date
+    func addOneWeek() -> Date? {
+        return Calendar.current.date(byAdding: .day, value: 7, to: self)
+    }
+
+    /// subtract one week to date
+    func subtractOneWeek() -> Date? {
+        return Calendar.current.date(byAdding: .day, value: -7, to: self)
+    }
+
+    /// add one month to date
+    func addOneMonth() -> Date? {
+        return Calendar.current.date(byAdding: .month, value: 1, to: self)
+    }
+
+    /// Set date to one month prior to date
+    func subtractOneMonth() -> Date? {
+        return Calendar.current.date(byAdding: .month, value: 1, to: self)
+    }
+    
+    /// Set date to first of calendar month
+    func startOfTheMonth() -> Date? {
+        return Calendar.current.date(from: Calendar.current.dateComponents([.year, .month], from: Calendar.current.startOfDay(for: self)))
+    }
+    
+    /// Set date to first of calendar week
+    func startOfTheWeek() -> Date? {
+        return Calendar.current.date(from: Calendar.current.dateComponents([.year, .yearForWeekOfYear, .weekOfYear], from: Calendar.current.startOfDay(for: self)))
+    }
     
 }

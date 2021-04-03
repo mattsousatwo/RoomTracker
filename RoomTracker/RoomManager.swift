@@ -14,6 +14,7 @@ class RoomManager: CoreDataPersistantManager, ObservableObject {
     @Published var currentRoomsForFloor = [Room]()
     @Published var previousRoomsForFloor = [Room]()
     @Published var selectedRoom : Room?
+    @Published var roomHisoryForFloor = [Room]()
     
     lazy var defaultRoomName = "DEFAULTROOMNAME"
     lazy var defaultRoomID = "DEFAULTROOMID"
@@ -149,6 +150,75 @@ extension RoomManager {
             }
         } catch {
             print(error)
+        }
+    }
+    
+    
+    /// Fetch all rooms for floor
+    func fetchAllRooms(for floor: Floor) {
+        guard let context = context else { return }
+        let request: NSFetchRequest<Room> = Room.fetchRequest()
+        guard let floorID = floor.uuid else { return }
+        
+        request.predicate = NSPredicate(format: "floorID == %@", floorID)
+  
+        do {
+            roomHisoryForFloor = try context.fetch(request)
+        } catch {
+            print(error)
+        }
+    }
+    
+    /// Pull Rooms from Selected Floor
+    func extractAllRooms(for floor: Floor) -> [Room]? {
+        if roomHisoryForFloor.count == 0 {
+            fetchAllRooms(for: floor)
+        }
+        if roomHisoryForFloor.count == 0 {
+            return nil
+        } else {
+            return roomHisoryForFloor
+        }
+    }
+    
+    /// Fetch all rooms for floor from date
+    func fetchAllRooms(for floor: Floor, on date: String) {
+        guard let context = context else { return }
+        let request: NSFetchRequest<Room> = Room.fetchRequest()
+        guard let floorID = floor.uuid else { return }
+        
+        let floorIDPredicate = NSPredicate(format: "floorID == %@", floorID)
+        let currentDatePredicate = NSPredicate(format: "date == %@", date)
+        
+        request.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [floorIDPredicate, currentDatePredicate])
+  
+        do {
+            
+            roomHisoryForFloor = try context.fetch(request)
+        } catch {
+            print(error)
+        }
+    }
+
+    /// Extract all rooms for floor by date
+    func extractRooms(for floor: Floor, by date: String) -> [Room]? {
+        if roomHisoryForFloor.count == 0 {
+            fetchAllRooms(for: floor, on: date)
+        } else {
+            if roomHisoryForFloor.count != 0 {
+                for room in roomHisoryForFloor {
+                    if room.floorID != floor.uuid {
+                        roomHisoryForFloor.removeAll()
+                    }
+                }
+            }
+        }
+        
+        if roomHisoryForFloor.count == 0  {
+            return nil
+        } else {
+            let roomHistoryForDay = roomHisoryForFloor.filter({ $0.date == date && $0.floorID == floor.uuid})
+            return roomHistoryForDay
         }
     }
     

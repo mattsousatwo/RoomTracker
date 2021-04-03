@@ -196,7 +196,19 @@ class DateTests: XCTestCase {
         }
         
         XCTAssertTrue(comparison)
+    }
+    
+    
+    
+    func testIfWeCanIncrementDates() {
+        let date = Date()
         
+        let today = date
+        let yesterday = today.startOfTheMonth()!
+//        let s = Calendar.current.date(by)
+        
+        
+        print(" Dates = today: \(date.asFormattedString()), yesterday: \(yesterday.asFormattedString()) ")
         
         
         

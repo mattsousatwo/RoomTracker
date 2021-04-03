@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		600D06CF2612553E00ED48F8 /* DefaultRoomTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 600D06CE2612553D00ED48F8 /* DefaultRoomTypes.swift */; };
 		601BFD2626178A1500AE7636 /* HistoryFloorList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 601BFD2526178A1500AE7636 /* HistoryFloorList.swift */; };
+		601BFD2E2617BB0100AE7636 /* HistoryRoomList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 601BFD2D2617BB0100AE7636 /* HistoryRoomList.swift */; };
 		6041EFFC260E6277008E1B7F /* Room+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6041EFF8260E6277008E1B7F /* Room+CoreDataClass.swift */; };
 		6041EFFD260E6277008E1B7F /* Room+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6041EFF9260E6277008E1B7F /* Room+CoreDataProperties.swift */; };
 		6041EFFE260E6277008E1B7F /* Floor+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6041EFFA260E6277008E1B7F /* Floor+CoreDataClass.swift */; };
@@ -69,6 +70,7 @@
 /* Begin PBXFileReference section */
 		600D06CE2612553D00ED48F8 /* DefaultRoomTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultRoomTypes.swift; sourceTree = "<group>"; };
 		601BFD2526178A1500AE7636 /* HistoryFloorList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryFloorList.swift; sourceTree = "<group>"; };
+		601BFD2D2617BB0100AE7636 /* HistoryRoomList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryRoomList.swift; sourceTree = "<group>"; };
 		6041EFF8260E6277008E1B7F /* Room+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Room+CoreDataClass.swift"; path = "RoomTracker/Room+CoreDataClass.swift"; sourceTree = "<group>"; };
 		6041EFF9260E6277008E1B7F /* Room+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Room+CoreDataProperties.swift"; path = "RoomTracker/Room+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		6041EFFA260E6277008E1B7F /* Floor+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Floor+CoreDataClass.swift"; path = "RoomTracker/Floor+CoreDataClass.swift"; sourceTree = "<group>"; };
@@ -145,6 +147,7 @@
 			children = (
 				60A356EE260F665100ED3A64 /* History.swift */,
 				601BFD2526178A1500AE7636 /* HistoryFloorList.swift */,
+				601BFD2D2617BB0100AE7636 /* HistoryRoomList.swift */,
 			);
 			name = History;
 			sourceTree = "<group>";
@@ -465,6 +468,7 @@
 				60BB68602603D5BB00E4D1CC /* SceneDelegate.swift in Sources */,
 				6067FE652606CA6900B8CA8B /* FloorList.swift in Sources */,
 				60F9D1F1260E8517006BD598 /* NewRoomView.swift in Sources */,
+				601BFD2E2617BB0100AE7636 /* HistoryRoomList.swift in Sources */,
 				60A356F4260F690A00ED3A64 /* Settings.swift in Sources */,
 				60F9D1EC260E7DFD006BD598 /* NewFloorView.swift in Sources */,
 				606C25B3261140F100BF2A39 /* DateFormatter+EXT.swift in Sources */,

@@ -13,10 +13,13 @@ struct HistoryFloorList: View {
     let columSize = [ GridItem(.adaptive(minimum: 150)) ]
     
     @State var floors: [Floor]?
+    @State var selectedRooms: [Room]?
     @ObservedObject var floorManager = FloorManager()
-    
+    @ObservedObject var roomManager = RoomManager()
     
     @Binding var goToToday: Bool
+    
+    var date: String
     
     // Show text that says there are no saved views
     private func emptyView() -> some View {
@@ -36,7 +39,7 @@ struct HistoryFloorList: View {
         return
             LazyVGrid(columns: columSize, alignment: .center, spacing: 20) {
                 ForEach(floors, id: \.self) { floor in
-                    NavigationLink(destination: RoomList(floor: floor)) {
+                    NavigationLink(destination: HistoryRoomList(floor: floor, date: date)   ) {
                         FloorCard(status: .inactive, floor: floor)
                     }.buttonStyle(PlainButtonStyle())
                 }
@@ -75,6 +78,7 @@ struct HistoryFloorList: View {
             }
         })
      
+ 
         
         
     }
@@ -82,6 +86,6 @@ struct HistoryFloorList: View {
 
 struct HistoryFloorList_Previews: PreviewProvider {
     static var previews: some View {
-        HistoryFloorList(goToToday: .constant(false))
+        HistoryFloorList(goToToday: .constant(false), date: "")
     }
 }

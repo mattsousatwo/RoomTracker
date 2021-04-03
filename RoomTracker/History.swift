@@ -9,76 +9,144 @@ import SwiftUI
 
 struct History: View {
     
-    @Binding var goToToday: Bool 
+    @Binding var goToToday: Bool
     
-    var date: String {
-        var dateString = Date().asFormattedString()
-        
-        if goToToday == false {
-            
-            dateString = "Not today"
+    //
+    @State private var date: String = Date().asFormattedString()
+    
+    
+    func setToBeginingOfDateType() {
+        var currentDate: Date? {
+            let dateFormat = DateFormatter()
+            return dateFormat.convertStringToDate(date)
         }
-        
-        return dateString
+        // go to first of week, or first of month
+        if let currentDate = currentDate {
+            switch selectedDateType {
+            case .week:
+                if let newDate = currentDate.startOfTheWeek() {
+                    date = newDate.asFormattedString()
+                }
+            case .month:
+                if let newDate = currentDate.startOfTheMonth() {
+                    date = newDate.asFormattedString()
+                }
+            default:
+                break
+            }
+        }
+
     }
+    
+    /// Set date to todays date
+    private func goToTodaysDate() {
+        date = Date().asFormattedString()
+    }
+    
+    // Decrement date by value depending on selected Date Type
+    private func subtractFromDate() {
+        print("subtractFromDate()")
+        var currentDate: Date? {
+            let dateFormat = DateFormatter()
+            return dateFormat.convertStringToDate(date)
+        }
+        if let currentDate = currentDate {
+            switch selectedDateType {
+            case .day:
+                if let newDate = currentDate.subtractOneDay() {
+                    date = newDate.asFormattedString()
+                }
+            case .week:
+                if let newDate = currentDate.subtractOneWeek() {
+                    date = newDate.asFormattedString()
+                }
+            case .month:
+                if let newDate = currentDate.subtractOneMonth() {
+                    date = newDate.asFormattedString()
+                }
+            }
+        }
+    }
+    
+    // Increment date by value depending on selected Date Type
+    private func addToDate() {
+        var currentDate: Date? {
+            let dateFormat = DateFormatter()
+            return dateFormat.convertStringToDate(date)
+        }
+        if let currentDate = currentDate {
+            switch selectedDateType {
+            case .day:
+                if let newDate = currentDate.addOneDay() {
+                    date = newDate.asFormattedString()
+                }
+            case .week:
+                if let newDate = currentDate.addOneWeek() {
+                    date = newDate.asFormattedString()
+                }
+            case .month:
+                if let newDate = currentDate.addOneMonth() {
+                    date = newDate.asFormattedString()
+                }
+            }
+        }
+    }
+    
+    
     
     enum DateViewType: String, CaseIterable {
         case day = "Day", week = "Week", month = "Month"
     }
     
-    let dateTypes: [DateViewType] = [.day, .week, .month]
-    
-    
-    @State private var selectedDateIndex = 0
+    @State private var selectedDateType: DateViewType = .day
     
     /// Picker to select how the dates should be preseented
     private func dateTypePicker() -> some View {
         return
-            Picker(selection: $selectedDateIndex,
+            Picker(selection: $selectedDateType,
                    label: Text("Date type: "),
                    content: {
                     
-                    ForEach(0..<dateTypes.count, id: \.self) { index in
-                        Text(dateTypes[index].rawValue).tag(index)
+                    ForEach(DateViewType.allCases, id: \.self) { index in
+                        Text(index.rawValue).tag(index)
                         
                     }
                     
                    }).pickerStyle(SegmentedPickerStyle())
-//            .onChange(of: selectedDateIndex, perform: { value in
-//
-//                updateTasks()
-//
-//            })
+            .onChange(of: selectedDateType, perform: { _ in
+
+                setToBeginingOfDateType()
+
+            })
     }
     
     // Enum to handle image selection for date button
-    enum DateButtonDirection: String {
-        case left = "arrow.left.circle.fill"
-        case right = "arrow.right.circle.fill"
+    enum DateButtonType: String {
+        case minus = "arrow.left.circle.fill"
+        case add = "arrow.right.circle.fill"
         
         var image: Image {
             switch self {
-            case .left:
+            case .minus:
                 return Image(systemName: self.rawValue)
-            case .right:
+            case .add:
                 return Image(systemName: self.rawValue)
             }
         }
     }
     
     // Directional Button to change date
-    private func changeDateButton(_ direction: DateButtonDirection) -> some View {
+    private func changeDateButton(_ direction: DateButtonType) -> some View {
         return
             Button(action: {
                 switch direction {
-                case .left:
+                case .minus:
                     print("Go back one day")
-                    
-                case .right:
+                    subtractFromDate()
+                case .add:
                     print("Go forward one day")
-                    
+                    addToDate()
                 }
-                
             }, label: {
                 direction.image
                     .resizable()
@@ -93,7 +161,8 @@ struct History: View {
             VStack {
                 HStack(alignment: .center) {
                     
-                    changeDateButton(.left)
+                    changeDateButton(.minus)
+                        
                         
                     Spacer()
                     
@@ -101,7 +170,8 @@ struct History: View {
                         .font(.title)
                         .fontWeight(.light)
                     Spacer()
-                    changeDateButton(.right)
+                    changeDateButton(.add)
+                       
                         
                 }
                 .padding(.horizontal)
@@ -116,9 +186,12 @@ struct History: View {
         
         VStack {
             dateController()
-            HistoryFloorList(goToToday: $goToToday)
+            HistoryFloorList(goToToday: $goToToday, date: date )
             Spacer()
-                
+        }
+
+        .onChange(of: goToToday) { (_) in
+            goToTodaysDate()
         }
         
         
