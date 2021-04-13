@@ -52,6 +52,20 @@ class CompletionRate {
         }
     }
     
+    // Return a String as a percentage 
+    var asPercentage: String {
+        var percentageString = String()
+        
+        if self.isComplete == true {
+            percentageString = "100%"
+        } else {
+            let rate = completeCount % totalCount
+            percentageString = "\(rate)"
+        }
+        
+        return percentageString
+    }
+    
     
     
 }

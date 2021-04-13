@@ -57,10 +57,15 @@ struct FloorList: View {
                     }
                     
                 }.padding()
+                
+                BarRoomCard()
+                
                 Spacer() 
 
                 Divider()
                 WorkDetails()
+                
+                
                     
 
             } else {

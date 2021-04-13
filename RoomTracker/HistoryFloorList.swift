@@ -17,7 +17,6 @@ struct HistoryFloorList: View {
     @ObservedObject var floorManager = FloorManager()
     @ObservedObject var roomManager = RoomManager()
 
-    
     var date: String
     
     // Show text that says there are no saved views

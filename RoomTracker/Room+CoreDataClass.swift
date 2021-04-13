@@ -81,5 +81,18 @@ public class Room: NSManagedObject {
         self.update(tasks: newTasks)
     }
     
+    /// Convert tasks to get completion rate
+    func getCompletionRate() -> CompletionRate {
+        var totalCount = 0
+        var completeCount = 0
+        let tasks = self.convertTasks()
+        for task in tasks {
+            if task.isComplete == true {
+                completeCount += 1
+            }
+        }
+        totalCount = tasks.count
+        return CompletionRate(complete: completeCount, total: totalCount)
+    }
     
 }
