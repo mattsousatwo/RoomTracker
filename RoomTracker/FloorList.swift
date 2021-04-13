@@ -58,8 +58,6 @@ struct FloorList: View {
                     
                 }.padding()
                 
-                BarRoomCard()
-                
                 Spacer() 
 
                 Divider()

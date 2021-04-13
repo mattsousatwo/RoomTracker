@@ -17,44 +17,32 @@ struct Bar: View {
         return barLengthLimit - 130
     }
     
-
+    var rate: CompletionRate {
+        let rate = room.getCompletionRate()
+        rate.completeCount = 4
+        return rate
+    }
+    
     // Size of bar
     private var barWidth: CGFloat? {
-        
-        var tasks: [Task] = []
+
         var length: CGFloat = 0
         
+        print("CompletionRate: \(rate.asString)")
         
-        if let room = room {
-            tasks = room.convertTasks()
-            print(tasks)
-            
-            
-            let rate = room.getCompletionRate()
-            
-            
-            /// Use getCompletionRate from RoomManager to get completed tasks
-            
-            print("CompletionRate: \(rate.asString)")
-            
-            let totalTasks = rate.totalCount
-            
-            //        let completedTasks = tasks.map({ $0.isComplete == true })
-            let completedTasks = rate.completeCount
-            
-            let taskSegment = limit / CGFloat(totalTasks)
-            
-            length = CGFloat(completedTasks) * taskSegment
-        }
+        let totalTasks = rate.totalCount
+        
+        let completedTasks = rate.completeCount
+        
+        let taskSegment = limit / CGFloat(totalTasks)
+        
+        length = CGFloat(completedTasks) * taskSegment
+        
         return length
     }
     
-    var room: Room? = nil
+    var room: Room
 
-    var trailingLabel: String {
-//        return "\(barWidth)"
-        return "100%"
-    }
     var color: Color = .darkBlue
     
     
@@ -93,7 +81,7 @@ extension Bar {
     // Label to show the completion rate of each task
     func percentageLabel() -> some View {
         return
-            Text(trailingLabel)
+            Text(rate.asPercentage)
                 .foregroundColor(.black)
                 .padding(.trailing)
     }

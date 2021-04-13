@@ -18,7 +18,6 @@ class CompletionRate {
         self.totalCount = total
     }
     
-    
     /// If count is equal
     var isComplete: Bool {
         if totalCount == completeCount {
@@ -51,7 +50,24 @@ class CompletionRate {
             completeCount = completeCount + addedValue
         }
     }
+
+    // Get percentage for completionRate
+    private func getPercentage(portion: Float, total: Float) -> String {
+        let divided = portion / total
+        var valueString = String()
+        
+        let numberFormat = NumberFormatter()
+        numberFormat.numberStyle = .percent
+        
+        if let value = numberFormat.string(from: NSNumber(value: divided)) {
+            valueString = value
+        }
+        
+        print("\n\n percentage: \(valueString)\n\n")
+        return valueString
+    }
     
+
     // Return a String as a percentage 
     var asPercentage: String {
         var percentageString = String()
@@ -59,13 +75,16 @@ class CompletionRate {
         if self.isComplete == true {
             percentageString = "100%"
         } else {
-            let rate = completeCount % totalCount
-            percentageString = "\(rate)"
+
+            percentageString = getPercentage(portion: Float(completeCount), total: Float(totalCount))
+                
         }
         
         return percentageString
     }
     
+    
+   
     
     
 }

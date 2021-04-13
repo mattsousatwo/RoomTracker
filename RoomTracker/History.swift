@@ -31,7 +31,16 @@ struct History: View {
         
         VStack {
             dateController()
-            HistoryFloorList(date: date)
+            switch selectedDateType {
+            case .day:
+                HistoryFloorList(date: date)
+            case .week:
+                BarRoomCard()
+            default:
+                HistoryFloorList(date: date)
+            
+            }
+//            HistoryFloorList(date: date)
             Spacer()
         }
         

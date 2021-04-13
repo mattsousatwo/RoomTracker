@@ -9,11 +9,7 @@ import SwiftUI
 
 struct BarGraph: View {
     
-    var room: Room {
-        let roomManager = RoomManager()
-        roomManager.fetchAllRooms()
-        return roomManager.allRooms.first!
-    }
+    var room: Room
     
     private var width: CGFloat {
         return UIScreen.main.bounds.width - 60
@@ -27,14 +23,14 @@ struct BarGraph: View {
                 Bar(index: index,
                     barLengthLimit: width,
                     room: room)
-            }.padding()
+            }.padding(15)
         }
         
     }
 }
 
-struct BarGraph_Previews: PreviewProvider {
-    static var previews: some View {
-        BarGraph()
-    }
-}
+//struct BarGraph_Previews: PreviewProvider {
+//    static var previews: some View {
+//        BarGraph(room: <#T##Room#>)
+//    }
+//}

@@ -29,13 +29,20 @@ struct BarRoomCard: View {
     private var width: CGFloat {
         return UIScreen.main.bounds.width - 60
     }
+    private var height: CGFloat {
+        let tasks = room.convertTasks()
+        let heightPerBar = 50
+        let heightForBars = tasks.count * heightPerBar
+        
+        return CGFloat(heightForBars)
+    }
     
     var body: some View {
         
         
         RoundedRectangle(cornerRadius: 12)
             .foregroundColor(.pGray)
-            .frame(width: width, height: 400, alignment: .center)
+            .frame(width: width, height: height, alignment: .center)
             .overlay(
                 
                 VStack(alignment: .leading) {
@@ -44,7 +51,7 @@ struct BarRoomCard: View {
                         .padding(.leading)
                         .padding(.top)
                 
-                    BarGraph()
+                    BarGraph(room: room)
                 }
                 
                 , alignment: .topLeading)
@@ -57,7 +64,7 @@ struct BarRoomCard_Previews: PreviewProvider {
         Group {
             BarRoomCard()
         
-            Bar(index: 1, barLengthLimit: 300)
+            
         }.previewLayout(.sizeThatFits)
     }
 }
