@@ -8,19 +8,26 @@
 import SwiftUI
 
 struct BarRoomCard: View {
+    @ObservedObject var roomManager = RoomManager()
     
     // testing selected room
-    var room: Room {
-        let roomManager = RoomManager()
-        roomManager.fetchAllRooms()
-        return roomManager.allRooms.first!
+    @State private var room: Room? = nil
+    
+    // Tasks
+    var tasks: [Task]? {
+        if let room = room {
+            return room.convertTasks()
+        }
+        return nil
     }
     
     // Title of room
     var title: String {
         var name = String()
-        if let roomName = room.name {
-            name = roomName
+        if let room = room {
+            if let roomName = room.name {
+                name = roomName
+            }
         }
         return name
     }
@@ -29,32 +36,71 @@ struct BarRoomCard: View {
     private var width: CGFloat {
         return UIScreen.main.bounds.width - 60
     }
+    // Height of card
     private var height: CGFloat {
-        let tasks = room.convertTasks()
-        let heightPerBar = 50
-        let heightForBars = tasks.count * heightPerBar
-        
+        var heightForBars = 0
+        if let room = room {
+            let tasks = room.convertTasks()
+            let heightPerBar = 70
+            heightForBars = tasks.count * heightPerBar
+            let roomNameAndTrailingLabelConstant = 45
+            heightForBars = heightForBars + roomNameAndTrailingLabelConstant
+            print("Height for Room: \(room.name ?? "no name"), (\(tasks.count) * \(heightPerBar) = \(heightForBars)) ")
+        }
         return CGFloat(heightForBars)
+    }
+    
+    // Total rate of completion
+    private var completionRate: String {
+        var rate = String()
+        if let tasks = tasks {
+            let completion = CompletionRate(tasks: tasks)
+            rate = completion.asPercentageString
+        }
+        return rate
     }
     
     var body: some View {
         
-        
-        RoundedRectangle(cornerRadius: 12)
-            .foregroundColor(.pGray)
-            .frame(width: width, height: height, alignment: .center)
-            .overlay(
-                
-                VStack(alignment: .leading) {
-                    Text(title)
+        if let room = room {
+            RoundedRectangle(cornerRadius: 12)
+                .foregroundColor(.pGray)
+                .frame(width: width, height: height, alignment: .center)
+                .overlay(
+                    
+                    VStack(alignment: .leading) {
+                        Text(title)
+                            .bold()
+                            .padding(.leading)
+                            .padding(.top)
+                        if let room = room {
+                            BarGraph(room: room)
+                        }
+                    }
+                    , alignment: .topLeading)
+                .overlay(
+                    Text(completionRate)
+                        .fontWeight(.light)
+                        .padding(.trailing)
+                        .padding(.bottom)
+                    , alignment: .bottomTrailing)
+        } else {
+            RoundedRectangle(cornerRadius: 12)
+                .foregroundColor(.pGray)
+                .frame(width: width, height: height, alignment: .center)
+                .overlay(
+                    Text("No Rooms Found")
                         .bold()
-                        .padding(.leading)
-                        .padding(.top)
-                
-                    BarGraph(room: room)
+                    , alignment: .center)
+                .onAppear {
+                    roomManager.fetchAllRooms()
+                    let randomInt = Int.random(in: 0..<roomManager.allRooms.count)
+                    let fetchedRoom = roomManager.allRooms[randomInt]
+                    room = fetchedRoom
                 }
-                
-                , alignment: .topLeading)
+        }
+        
+            
         
     }
 }
@@ -62,7 +108,7 @@ struct BarRoomCard: View {
 struct BarRoomCard_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            BarRoomCard()
+//            BarRoomCard()
         
             
         }.previewLayout(.sizeThatFits)

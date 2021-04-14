@@ -7,6 +7,7 @@
 
 import Foundation
 import CoreData
+import Combine
 
 class RoomManager: CoreDataPersistantManager, ObservableObject {
     
@@ -15,6 +16,8 @@ class RoomManager: CoreDataPersistantManager, ObservableObject {
     @Published var previousRoomsForFloor = [Room]()
     @Published var selectedRoom : Room?
     @Published var roomHisoryForFloor = [Room]()
+    @Published var roomsForWeek = [Room]()
+    @Published var roomsForMonth = [Room]()
     
     lazy var defaultRoomName = "DEFAULTROOMNAME"
     lazy var defaultRoomID = "DEFAULTROOMID"
@@ -355,6 +358,109 @@ extension RoomManager {
         return CompletionRate(complete: complete, total: total)
     }
     
+    /// Fetch all rooms for week
+    func fetchAllRoomsFor(week: [String], from floor: Floor) {
+        guard let context = context else { return }
+        roomsForWeek.removeAll()
+        
+        let request: NSFetchRequest<Room> = Room.fetchRequest()
+        guard let floorID = floor.uuid else { return }
+        
+        let floorIDPredicate = NSPredicate(format: "floorID == %@", floorID)
+        for date in week {
+            let datePredicate = NSPredicate(format: "date == %@", date)
+            request.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [floorIDPredicate, datePredicate])
+            
+            do {
+                let room = try context.fetch(request)
+                
+                roomsForWeek.append(contentsOf: room)
+            } catch {
+                print(error)
+            }
+        }
+    }
+    
+    /// Extract all rooms for floor in specified weeek
+    func extractAllRoomsFor(week: [String], from floor: Floor) -> [Room]? {
+        if roomsForWeek.count == 0 {
+            fetchAllRoomsFor(week: week, from: floor)
+        }
+        if roomsForWeek.count != 0 {
+            return roomsForWeek
+        } else {
+            return nil
+        }
+    }
+    
+    
+    /// Fetch all rooms for month
+    func fetchAllRoomsFor(month: [String], from floor: Floor) {
+        guard let context = context else { return }
+        roomsForMonth.removeAll()
+        
+        let request: NSFetchRequest<Room> = Room.fetchRequest()
+        guard let floorID = floor.uuid else { return }
+        
+        let floorIDPredicate = NSPredicate(format: "floorID == %@", floorID)
+        for date in month {
+            let datePredicate = NSPredicate(format: "date == %@", date)
+            request.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [floorIDPredicate, datePredicate])
+            
+            do {
+                let room = try context.fetch(request)
+                
+                roomsForMonth.append(contentsOf: room)
+            } catch {
+                print(error)
+            }
+        }
+    }
+    
+    
+    /// Extract all rooms for floor in specified month
+    func extractAllRoomsFor(month: [String], from floor: Floor) -> [Room]? {
+        if roomsForMonth.count == 0 {
+            fetchAllRoomsFor(month: month, from: floor)
+        }
+        if roomsForMonth.count != 0 {
+            return roomsForMonth
+        } else {
+            return nil
+        }
+    }
+
+    /// Get an array of all the tasks in selected rooms
+    func getAllTasks(from rooms: [Room]) -> [[Task]] {
+        var tasksContainer: [[Task]] = []
+        for room in rooms {
+            let tasksForRoom = room.convertTasks()
+            var tasks: [Task] = []
+            for task in tasksForRoom {
+                tasks.append(task)
+            }
+            tasksContainer.append(tasks)
+        }
+        return tasksContainer
+    }
+    
+    // Organize Tasks by like tasks
+    func getAllLike(tasks: [[Task]]) -> [[Task]] {
+        var tasksContainer: [[Task]] = []
+        
+        for taskArray in tasks {
+            var likeTasks: [Task] = []
+            for task in taskArray {
+                for task2 in taskArray {
+                    if task.title == task2.title {
+                        likeTasks.append(task2)
+                    }
+                }
+            }
+            tasksContainer.append(likeTasks)
+        }
+        return tasksContainer
+    }
     
 }
 

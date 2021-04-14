@@ -69,4 +69,32 @@ extension Date {
         return Calendar.current.date(from: Calendar.current.dateComponents([.year, .yearForWeekOfYear, .weekOfYear], from: Calendar.current.startOfDay(for: self)))
     }
     
+    // find end of week from date
+    func endOfTheWeek(from day: Date) -> Date? {
+        guard let pluOneWeek = day.addOneWeek() else { return nil }
+        guard let minusOneDay = pluOneWeek.subtractOneDay() else { return nil }
+        return minusOneDay
+    }
+    
+    // Find the last day of the month
+    func endOfTheMonth(from day: Date) -> Date? {
+        guard let begginingOfTheMonth = day.startOfTheMonth() else { return nil }
+        guard let plusOneMonth = begginingOfTheMonth.addOneMonth() else { return nil }
+        guard let lastDayOfMonth = plusOneMonth.subtractOneDay() else { return nil }
+        return lastDayOfMonth
+    }
+    
+    /// Get dates between dates
+    func allFormattedDatesBetween(_ fromDate: Date, to toDate: Date) -> [String] {
+        var dates: [String] = []
+        var date = fromDate
+        
+        while date <= toDate {
+            dates.append(date.asFormattedString())
+            guard let newDate = Calendar.current.date(byAdding: .day, value: 1, to: date) else { break }
+            date = newDate
+        }
+        return dates
+    }
+    
 }

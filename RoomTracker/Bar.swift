@@ -19,12 +19,11 @@ struct Bar: View {
     
     var rate: CompletionRate {
         let rate = room.getCompletionRate()
-        rate.completeCount = 4
         return rate
     }
     
     // Size of bar
-    private var barWidth: CGFloat? {
+    private var barLength: CGFloat? {
 
         var length: CGFloat = 0
         
@@ -52,11 +51,20 @@ struct Bar: View {
             
             taskLabel()
             
-            RoundedRectangle(cornerRadius: 12)
-                .foregroundColor(color)
-                .frame(width: barWidth,
-                       height: 25,
-                       alignment: .center)
+            
+                
+                RoundedRectangle(cornerRadius: 12)
+                    .foregroundColor(color)
+                    .frame(width: barLength,
+                           height: 25,
+                           alignment: .center)
+//
+//                RoundedRectangle(cornerRadius: 12)
+//                    .foregroundColor(.gray)
+//                    .frame(width: barLengthLimit,
+//                           height: 25,
+//                           alignment: .center)
+                
             
             percentageLabel()
             
@@ -81,7 +89,7 @@ extension Bar {
     // Label to show the completion rate of each task
     func percentageLabel() -> some View {
         return
-            Text(rate.asPercentage)
+            Text(rate.asPercentageString)
                 .foregroundColor(.black)
                 .padding(.trailing)
     }

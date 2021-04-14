@@ -103,8 +103,67 @@ class RoomManagerTests: XCTestCase {
         roomManager.fetchAllRooms()
         
         XCTAssertEqual(roomManager.allRooms.count, 0)
-        
+    
     }
+    
+    /// Test if fetching for rooms durring specified week will work
+    func testFetchingForWeek() {
+        // May 12, 1994
+        let date = Date()
+        
+        let startOfTheWeekdate = date.startOfTheWeek()
+        let endOfTheWeek = date.endOfTheWeek(from: startOfTheWeekdate!)
+        let week = date.allFormattedDatesBetween(startOfTheWeekdate!, to: endOfTheWeek!)
+        let floorM = FloorManager()
+        floorM.fetchAll()
+        let floor = floorM.allFloors.first(where: { $0.name == "FloorNameForTesting" })
+        
+        let rooms = roomManager.extractAllRoomsFor(week: week, from: floor!)
+        print("floorName: \(floor!.name ?? "nil")")
+        print("\n\n Rooms for week: \nWeek: [\(week)] \nroom.count: \(String(describing: rooms?.count)) \n\n")
+    }
+    
+    /// Test Fetching rooms for month in each floor
+    func testFetchingForMonth() {
+        let date = Date()
+        
+        let startOfTheMonthdate = date.startOfTheMonth()
+        let endOfTheMonth = date.endOfTheMonth(from: startOfTheMonthdate!)
+        let month = date.allFormattedDatesBetween(startOfTheMonthdate!, to: endOfTheMonth!)
+        let floorM = FloorManager()
+        floorM.fetchAll()
+        var rooms: [Room]? = []
+        for floor in floorM.allFloors {
+            rooms = roomManager.extractAllRoomsFor(month: month, from: floor)
+//            let rooms = roomManager.extractAllRoomsFor(week: month, from: floor)
+            print("\nfloorName: \(floor.name ?? "nil")")
+            print("\nRooms for month: \nMonth: [\(month)] \nroom.count: \(String(describing: rooms?.count)) \n\n")
+        }
+        XCTAssertTrue(rooms?.count != 0)
+    }
+    
+    
+    /// Test extracting all tasks for room array
+    func testGetAllTasksForRoomsInOneWeek() {
+        let date = Date()
+        
+        let startOfTheWeekdate = date.startOfTheWeek()
+        let endOfTheWeek = date.endOfTheWeek(from: startOfTheWeekdate!)
+        let week = date.allFormattedDatesBetween(startOfTheWeekdate!, to: endOfTheWeek!)
+        let floorM = FloorManager()
+        floorM.fetchAll()
+        let floor = floorM.allFloors.first(where: { $0.name == "FloorNameForTesting" })
+        
+        let rooms = roomManager.extractAllRoomsFor(week: week, from: floor!)
+        let tasks = roomManager.getAllTasks(from: rooms!)
+        
+        print("\n\n tasksCount = \(tasks.count), \(tasks)")
+        
+        print("floorName: \(floor!.name ?? "nil")")
+        print("\n\n Rooms for week: \nWeek: [\(week)] \nroom.count: \(String(describing: rooms?.count)) \n\n")
+    }
+    
+    
     
 }
 

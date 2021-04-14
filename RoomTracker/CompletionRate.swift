@@ -13,9 +13,25 @@ class CompletionRate {
     var totalCount: Int
     var completeCount: Int
     
+    /// Manually insert a completion rate
     init(complete: Int, total: Int) {
         self.completeCount = complete
         self.totalCount = total
+    }
+    
+    /// Get Rate From an array of Tasks
+    init(tasks: [Task]) {
+        var completed = 0
+        var total = 0
+        for task in tasks {
+            if task.isComplete == true {
+                completed += 1
+            }
+        }
+        total = tasks.count
+        
+        self.totalCount = total
+        self.completeCount = completed
     }
     
     /// If count is equal
@@ -66,18 +82,15 @@ class CompletionRate {
         print("\n\n percentage: \(valueString)\n\n")
         return valueString
     }
-    
 
-    // Return a String as a percentage 
-    var asPercentage: String {
+    // Return a percentage as String
+    var asPercentageString: String {
         var percentageString = String()
         
         if self.isComplete == true {
             percentageString = "100%"
         } else {
-
             percentageString = getPercentage(portion: Float(completeCount), total: Float(totalCount))
-                
         }
         
         return percentageString

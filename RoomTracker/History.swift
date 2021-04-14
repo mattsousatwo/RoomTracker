@@ -35,7 +35,12 @@ struct History: View {
             case .day:
                 HistoryFloorList(date: date)
             case .week:
-                BarRoomCard()
+                ScrollView(showsIndicators: false) {
+                    
+                    BarRoomCard().padding()
+                    BarRoomCard().padding()
+                    
+                }
             default:
                 HistoryFloorList(date: date)
             

@@ -14,8 +14,8 @@
             filePath = "RoomTracker/RoomManager.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "246"
-            endingLineNumber = "246"
+            startingLineNumber = "249"
+            endingLineNumber = "249"
             landmarkName = "extractRooms(for:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -30,9 +30,57 @@
             filePath = "RoomTracker/RoomManager.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "251"
-            endingLineNumber = "251"
+            startingLineNumber = "254"
+            endingLineNumber = "254"
             landmarkName = "extractRooms(for:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "5DB16E51-525B-43F3-A4ED-BD8B5DE04CE9"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "RoomTracker/RoomManager.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "424"
+            endingLineNumber = "424"
+            landmarkName = "extractAllRoomsFor(month:from:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "9B78B5D6-A653-4568-BC20-30AC40B24504"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "RoomTracker/RoomManager.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "422"
+            endingLineNumber = "422"
+            landmarkName = "extractAllRoomsFor(month:from:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "A439B291-8F06-4C8E-B501-8D7FDF046853"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "RoomTracker/RoomManager.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "407"
+            endingLineNumber = "407"
+            landmarkName = "fetchAllRoomsFor(month:from:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

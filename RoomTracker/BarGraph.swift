@@ -11,6 +11,11 @@ struct BarGraph: View {
     
     var room: Room
     
+    var tasksCount: Int {
+        let tasks = room.convertTasks()
+        return tasks.count
+    }
+    
     private var width: CGFloat {
         return UIScreen.main.bounds.width - 60
     }
@@ -19,7 +24,7 @@ struct BarGraph: View {
     var body: some View {
         
         VStack(alignment: .leading, spacing: 5) {
-            ForEach(0...3, id: \.self) { index in
+            ForEach(0..<tasksCount, id: \.self) { index in
                 Bar(index: index,
                     barLengthLimit: width,
                     room: room)
