@@ -9,23 +9,14 @@ import SwiftUI
 
 struct History: View {
     
-//    init() {
-//        
-//        if colorScheme == .light {
-//            UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor: UIColor.lightGray], for: .normal)
-//            UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor: UIColor.black], for: .selected)
-//        } else if colorScheme == .dark {
-//            UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor: UIColor.black], for: .normal)
-//            UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor: UIColor.lightGray], for: .selected)
-//        }
-//    }
-    
     // Used to detect Light vs Dark Mode
     @Environment(\.colorScheme) var colorScheme
 
     @State private var date: String = Date().asFormattedString()
     
     @State private var selectedDateType: DateViewType = .day
+    
+    @State private var selectedDates: [String] = []
     
     var body: some View {
         
@@ -34,18 +25,12 @@ struct History: View {
             switch selectedDateType {
             case .day:
                 HistoryFloorList(date: date)
-            case .week:
-                ScrollView(showsIndicators: false) {
-                    
-                    BarRoomCard().padding()
-                    BarRoomCard().padding()
-                    
-                }
-            default:
-                HistoryFloorList(date: date)
-            
+            default: 
+                HistoryBarList(dateType: $selectedDateType, dates: selectedDates)
+                    .onAppear {
+                        updateDates()
+                    }
             }
-//            HistoryFloorList(date: date)
             Spacer()
         }
         
@@ -74,27 +59,25 @@ extension History {
                     
                     ForEach(DateViewType.allCases, id: \.self) { index in
                         Text(index.rawValue).tag(index)
-                        
                     }
                     
                    }).pickerStyle(SegmentedPickerStyle())
             .onChange(of: selectedDateType, perform: { _ in
-
                 setToBeginingOfDateType()
-
+                updateDates()
             })
     }
     
     // Enum to handle image selection for date button
     enum DateButtonType: String {
         case minus = "arrow.left.circle.fill"
-        case add = "arrow.right.circle.fill"
+        case plus = "arrow.right.circle.fill"
         
         var image: Image {
             switch self {
             case .minus:
                 return Image(systemName: self.rawValue)
-            case .add:
+            case .plus:
                 return Image(systemName: self.rawValue)
             }
         }
@@ -108,7 +91,7 @@ extension History {
                 case .minus:
                     print("Go back one day")
                     subtractFromDate()
-                case .add:
+                case .plus:
                     print("Go forward one day")
                     addToDate()
                 }
@@ -117,7 +100,7 @@ extension History {
                     .resizable()
                 .frame(width: 40, height: 40, alignment: .center)
                 .foregroundColor(.gray)
-            }).buttonStyle(PlainButtonStyle())
+            }).buttonStyle(PlainButtonStyle() )
     }
     
     // Bar to control date selection
@@ -131,7 +114,7 @@ extension History {
                         .font(.title)
                         .fontWeight(.light)
                     Spacer()
-                    changeDateButton(.add)
+                    changeDateButton(.plus)
                 }
                 .padding(.horizontal)
                 .padding(.vertical, 10)
@@ -144,12 +127,7 @@ extension History {
 
 // Date Control
 extension History {
-    
-    /// Control for how the dates are to be changed and shown
-    enum DateViewType: String, CaseIterable {
-        case day = "Day", week = "Week", month = "Month"
-    }
-    
+        
     /// Change date depending on date type-
     func setToBeginingOfDateType() {
         goToTodaysDate()
@@ -227,5 +205,48 @@ extension History {
             }
         }
     }
+    
+    
+    // Get all dates for selected time frame to pass onto HistoryBarList
+    private func updateDates() {
+        
+        var currentDate: Date? {
+            let dateFormat = DateFormatter()
+            return dateFormat.convertStringToDate(date)
+        }
+        
+        if let currentDate = currentDate {
+            switch selectedDateType {
+            case .week:
+                guard let startOfTheWeek = currentDate.startOfTheWeek() else { return }
+                guard let endOfTheWeek = currentDate.endOfTheWeek(from: startOfTheWeek) else { return }
+                let week = currentDate.allFormattedDatesBetween(startOfTheWeek, to: endOfTheWeek)
+                selectedDates = week
+            case .month:
+                guard let startOfTheMonth = currentDate.startOfTheMonth() else { return }
+                guard let endOfTheMonth = currentDate.endOfTheMonth(from: startOfTheMonth) else { return }
+                let month = currentDate.allFormattedDatesBetween(startOfTheMonth, to: endOfTheMonth)
+                selectedDates = month
+            default:
+                break
+            }
+        }
+        
+    }
+    
 }
 
+// Change color of picker
+extension History {
+    
+    
+//    init() {
+//        if colorScheme == .light {
+//            UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor: UIColor.lightGray], for: .normal)
+//            UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor: UIColor.black], for: .selected)
+//        } else if colorScheme == .dark {
+//            UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor: UIColor.black], for: .normal)
+//            UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor: UIColor.lightGray], for: .selected)
+//        }
+//    }
+}

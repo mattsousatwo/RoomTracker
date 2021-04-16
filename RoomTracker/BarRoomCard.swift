@@ -11,24 +11,22 @@ struct BarRoomCard: View {
     @ObservedObject var roomManager = RoomManager()
     
     // testing selected room
-    @State private var room: Room? = nil
+    var room: Room
     
     // Tasks
     var tasks: [Task]? {
-        if let room = room {
-            return room.convertTasks()
-        }
-        return nil
+        
+        return room.convertTasks()
     }
     
     // Title of room
     var title: String {
         var name = String()
-        if let room = room {
-            if let roomName = room.name {
-                name = roomName
-            }
+        
+        if let roomName = room.name {
+            name = roomName
         }
+        
         return name
     }
     
@@ -39,14 +37,14 @@ struct BarRoomCard: View {
     // Height of card
     private var height: CGFloat {
         var heightForBars = 0
-        if let room = room {
-            let tasks = room.convertTasks()
-            let heightPerBar = 70
-            heightForBars = tasks.count * heightPerBar
-            let roomNameAndTrailingLabelConstant = 45
-            heightForBars = heightForBars + roomNameAndTrailingLabelConstant
-            print("Height for Room: \(room.name ?? "no name"), (\(tasks.count) * \(heightPerBar) = \(heightForBars)) ")
-        }
+        
+        let tasks = room.convertTasks()
+        let heightPerBar = 70
+        heightForBars = tasks.count * heightPerBar
+        let roomNameAndTrailingLabelConstant = 45
+        heightForBars = heightForBars + roomNameAndTrailingLabelConstant
+        print("Height for Room: \(room.name ?? "no name"), (\(tasks.count) * \(heightPerBar) = \(heightForBars)) ")
+        
         return CGFloat(heightForBars)
     }
     
@@ -62,45 +60,45 @@ struct BarRoomCard: View {
     
     var body: some View {
         
-        if let room = room {
-            RoundedRectangle(cornerRadius: 12)
-                .foregroundColor(.pGray)
-                .frame(width: width, height: height, alignment: .center)
-                .overlay(
-                    
-                    VStack(alignment: .leading) {
-                        Text(title)
-                            .bold()
-                            .padding(.leading)
-                            .padding(.top)
-                        if let room = room {
-                            BarGraph(room: room)
-                        }
-                    }
-                    , alignment: .topLeading)
-                .overlay(
-                    Text(completionRate)
-                        .fontWeight(.light)
-                        .padding(.trailing)
-                        .padding(.bottom)
-                    , alignment: .bottomTrailing)
-        } else {
-            RoundedRectangle(cornerRadius: 12)
-                .foregroundColor(.pGray)
-                .frame(width: width, height: height, alignment: .center)
-                .overlay(
-                    Text("No Rooms Found")
-                        .bold()
-                    , alignment: .center)
-                .onAppear {
-                    roomManager.fetchAllRooms()
-                    let randomInt = Int.random(in: 0..<roomManager.allRooms.count)
-                    let fetchedRoom = roomManager.allRooms[randomInt]
-                    room = fetchedRoom
-                }
-        }
         
-            
+        RoundedRectangle(cornerRadius: 12)
+            .foregroundColor(.pGray)
+            .frame(width: width, height: height, alignment: .center)
+            .overlay(
+                
+                VStack(alignment: .leading) {
+                    Text(title)
+                        .bold()
+                        .padding(.leading)
+                        .padding(.top)
+                    if let room = room {
+                        BarGraph(room: room)
+                    }
+                }
+                , alignment: .topLeading)
+            .overlay(
+                Text(completionRate)
+                    .fontWeight(.light)
+                    .padding(.trailing)
+                    .padding(.bottom)
+                , alignment: .bottomTrailing)
+        
+        //            RoundedRectangle(cornerRadius: 12)
+        //                .foregroundColor(.pGray)
+        //                .frame(width: width, height: height, alignment: .center)
+        //                .overlay(
+        //                    Text("No Rooms Found")
+        //                        .bold()
+        //                    , alignment: .center)
+        //                .onAppear {
+        //                    roomManager.fetchAllRooms()
+        //                    let randomInt = Int.random(in: 0..<roomManager.allRooms.count)
+        //                    let fetchedRoom = roomManager.allRooms[randomInt]
+        //                    room = fetchedRoom
+        //                }
+        //        }
+        
+        
         
     }
 }
@@ -108,8 +106,8 @@ struct BarRoomCard: View {
 struct BarRoomCard_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-//            BarRoomCard()
-        
+            //            BarRoomCard()
+            
             
         }.previewLayout(.sizeThatFits)
     }

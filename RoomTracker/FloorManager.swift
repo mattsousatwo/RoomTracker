@@ -11,6 +11,9 @@ import CoreData
 class FloorManager: CoreDataPersistantManager, ObservableObject {
     
     @Published var allFloors = [Floor]()
+    /// Floor that is being used in History mode .week or .month
+    @Published var selectedFloor: Floor?
+    
     lazy var defaultNewFloorName = "New Floor"
     lazy var defaultNewFloorID = "DEFAULTNEWFLOORID"
     
@@ -73,5 +76,15 @@ class FloorManager: CoreDataPersistantManager, ObservableObject {
         
     }
     
+
+    // Get the first floor for History .week or .month
+    func getFirstHistoryFloor() {
+        fetchAll()
+        if allFloors.count != 0 {
+            selectedFloor = allFloors.first(where: { $0.uuid != defaultNewFloorID })
+        } else {
+            selectedFloor = nil
+        }
+    }
     
 }
