@@ -26,9 +26,11 @@ struct History: View {
             case .day:
                 HistoryFloorList(date: date)
             default: 
-                HistoryBarList(dateType: $selectedDateType, dates: selectedDates)
+                HistoryBarList(dateType: $selectedDateType, dates: $selectedDates)
                     .onAppear {
-                        updateDates()
+                        withAnimation {
+                            updateDates()
+                        }
                     }
             }
             Spacer()
@@ -91,9 +93,11 @@ extension History {
                 case .minus:
                     print("Go back one day")
                     subtractFromDate()
+                    updateDates()
                 case .plus:
                     print("Go forward one day")
                     addToDate()
+                    updateDates()
                 }
             }, label: {
                 direction.image

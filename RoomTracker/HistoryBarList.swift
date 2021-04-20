@@ -22,7 +22,7 @@ struct HistoryBarList: View {
     
     @Binding var dateType: DateViewType 
     
-    var dates: [String]
+    @Binding var dates: [String]
     
     var body: some View {
         
@@ -31,19 +31,16 @@ struct HistoryBarList: View {
             if let floor = floor {
                 if rooms.count != 0 {
                     allBarGraphCards(for: floor)
-                } else {
+                }
+                else {
                     placeHolder
                 }
-            } else {
-                placeHolder
             }
+//            else {
+//                placeHolder
+//            }
         }
         .onAppear {
-//            floorManager.fetchAll()
-//            if floorManager.allFloors.count != 0 {
-//                floor = floorManager.allFloors.first(where: { $0.uuid != floorManager.defaultNewFloorID})
-//            }
-            
             floorManager.getFirstHistoryFloor()
             if let selectedFloor = floorManager.selectedFloor {
                 floor = selectedFloor
@@ -52,6 +49,9 @@ struct HistoryBarList: View {
             updateRooms()
         }
         .onChange(of: floor) { (_) in
+            updateRooms()
+        }
+        .onChange(of: dates) { (_) in
             updateRooms()
         }
         
@@ -64,8 +64,8 @@ struct HistoryBarList: View {
 struct HistoryBarList_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            HistoryBarList(dateType: .constant(.week) , dates: ["Apr 11, 2020"])
-            HistoryBarList(dateType: .constant(.week) , dates: [""]).floorSelectionController()
+            HistoryBarList(dateType: .constant(.week) , dates: .constant(["Apr 11, 2020"]) )
+            HistoryBarList(dateType: .constant(.week) , dates: .constant(["Apr 11, 2020"])).floorSelectionController()
         }.previewLayout(.sizeThatFits)
     }
 }
@@ -96,9 +96,11 @@ extension HistoryBarList {
                 case .minus:
                     print("minus one")
                     updateFloorSelection(.minus)
+                    updateRooms()
                 case .plus:
                     print("plus one")
                     updateFloorSelection(.plus)
+                    updateRooms()
                 }
             }, label: {
                 direction.image
@@ -129,18 +131,24 @@ extension HistoryBarList {
                     if let floorName = floor.name {
                         self.floorName = floorName
                         print("Changed Floor: \(floorName), \(floor.uuid)")
+                        updateRooms()
                     }
                 }
             }
-        
     }
     
     /// Display BarGraphCards for each room fetchec
     func allBarGraphCards(for floor: Floor) -> some View {
         return VStack {
-            ForEach(rooms, id: \.self) { room in
-                BarRoomCard(room: room)
+            if rooms.count != 0 {
+                ForEach(rooms, id: \.self) { room in
+                    BarRoomCard(room: room)
+                }
+            } else {
+                placeHolder
             }
+            
+            
         }
     }
     
@@ -200,6 +208,8 @@ extension HistoryBarList {
             switch dateType {
             case .week:
                 if let allrooms = roomManager.extractAllRoomsFor(week: dates, from: floor) {
+                    
+                    
                     rooms = allrooms
                 }
             case .month:
@@ -209,7 +219,9 @@ extension HistoryBarList {
             case .day:
                 break
             }
-            print("Rooms Count: \(rooms.count)")
+            
+            
+            print("Rooms Count: \(rooms.count), for: \(dates), floor: \(floor.name ?? "")")
             print("\n\nHistoryBarList - \(dateType.rawValue), rooms: \(rooms), floor: \(floor)\n\n")
         }
     }

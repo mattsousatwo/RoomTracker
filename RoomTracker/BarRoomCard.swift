@@ -13,20 +13,21 @@ struct BarRoomCard: View {
     // testing selected room
     var room: Room
     
+    // Selected Rooms
+    var rooms: [Room]?
+    
+    
     // Tasks
     var tasks: [Task]? {
-        
         return room.convertTasks()
     }
     
-    // Title of room
+    // Title of room 
     var title: String {
         var name = String()
-        
         if let roomName = room.name {
             name = roomName
         }
-        
         return name
     }
     

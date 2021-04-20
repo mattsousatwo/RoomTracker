@@ -143,27 +143,6 @@ class RoomManagerTests: XCTestCase {
     }
     
     
-    /// Test extracting all tasks for room array
-    func testGetAllTasksForRoomsInOneWeek() {
-        let date = Date()
-        
-        let startOfTheWeekdate = date.startOfTheWeek()
-        let endOfTheWeek = date.endOfTheWeek(from: startOfTheWeekdate!)
-        let week = date.allFormattedDatesBetween(startOfTheWeekdate!, to: endOfTheWeek!)
-        let floorM = FloorManager()
-        floorM.fetchAll()
-        let floor = floorM.allFloors.first(where: { $0.name == "FloorNameForTesting" })
-        
-        let rooms = roomManager.extractAllRoomsFor(week: week, from: floor!)
-        let tasks = roomManager.getAllTasks(from: rooms!)
-        
-        print("\n\n tasksCount = \(tasks.count), \(tasks)")
-        
-        print("floorName: \(floor!.name ?? "nil")")
-        print("\n\n Rooms for week: \nWeek: [\(week)] \nroom.count: \(String(describing: rooms?.count)) \n\n")
-    }
-    
-    
     
 }
 
@@ -272,6 +251,5 @@ class DateTests: XCTestCase {
         
         
     }
-    
-    
 }
+

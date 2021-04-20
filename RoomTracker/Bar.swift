@@ -13,6 +13,7 @@ struct Bar: View {
     
     // Limit for bar and Text
     var barLengthLimit: CGFloat
+    
     var limit: CGFloat {
         return barLengthLimit - 130
     }

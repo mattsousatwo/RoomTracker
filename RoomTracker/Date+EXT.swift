@@ -56,7 +56,7 @@ extension Date {
 
     /// Set date to one month prior to date
     func subtractOneMonth() -> Date? {
-        return Calendar.current.date(byAdding: .month, value: 1, to: self)
+        return Calendar.current.date(byAdding: .month, value: -1, to: self)
     }
     
     /// Set date to first of calendar month

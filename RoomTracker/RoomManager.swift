@@ -430,37 +430,7 @@ extension RoomManager {
         }
     }
 
-    /// Get an array of all the tasks in selected rooms
-    func getAllTasks(from rooms: [Room]) -> [[Task]] {
-        var tasksContainer: [[Task]] = []
-        for room in rooms {
-            let tasksForRoom = room.convertTasks()
-            var tasks: [Task] = []
-            for task in tasksForRoom {
-                tasks.append(task)
-            }
-            tasksContainer.append(tasks)
-        }
-        return tasksContainer
-    }
-    
-    // Organize Tasks by like tasks
-    func getAllLike(tasks: [[Task]]) -> [[Task]] {
-        var tasksContainer: [[Task]] = []
-        
-        for taskArray in tasks {
-            var likeTasks: [Task] = []
-            for task in taskArray {
-                for task2 in taskArray {
-                    if task.title == task2.title {
-                        likeTasks.append(task2)
-                    }
-                }
-            }
-            tasksContainer.append(likeTasks)
-        }
-        return tasksContainer
-    }
+
     
 }
 
